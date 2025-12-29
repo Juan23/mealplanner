@@ -5,6 +5,7 @@ from logger import logger
 import os
 import sys
 import math  # Added for pagination calculations
+from datetime import date, timedelta
 
 
 def osclear():
@@ -40,19 +41,22 @@ def main():
         osclear()
         print("Welcome to Recipe App!")
         print("What do you want to do?")
-        print("1 - Create meal plan")
+        print("1 - Create/View meal plan")
         print("2 - Generate shopping list")
         print("3 - Recipes")
+        print("4 - User Settings")
         print("q - Exit")
 
         choice = input("").lower()
         osclear()
         if choice == "1":
-            print("Meal plan")
+            view_meal_plan()
         elif choice == "2":
-            print("test")
+            generate_shopping_list()
         elif choice == "3":
             recipes_front_page()
+        elif choice == "4":
+            user_settings()
         elif choice == "q":
             # TODO
             sys.exit()
@@ -64,6 +68,73 @@ def input_invalid():
     """tell user input is invalid"""
     print("Please enter a valid choice.")
     input("Press Enter to continue...")
+
+
+def generate_shopping_list():
+    osclear()
+    print("--- Generate Shopping List ---")
+    print("Generating list for the next 7 days...")
+
+    try:
+        meal_plan = load_data("meal_plan.json")
+    except FileNotFoundError:
+        print("No meal plan found.")
+        input("Press Enter...")
+        return
+
+    try:
+        recipes_data = load_data("recipes.json")
+    except FileNotFoundError:
+        print("No recipes found.")
+        input("Press Enter...")
+        return
+
+    start_date = date.today()
+    shopping_list = {}
+
+    for i in range(7):
+        d = start_date + timedelta(days=i)
+        d_str = d.isoformat()
+
+        if d_str in meal_plan:
+            day_plan = meal_plan[d_str]
+            for meal_type in ["breakfast", "lunch", "dinner", "snack"]:
+                if meal_type in day_plan:
+                    for recipe_name in day_plan[meal_type]:
+                        if recipe_name in recipes_data:
+                            ing_list = recipes_data[recipe_name].get("ingredients", [])
+                            for ing in ing_list:
+                                name = ing["item"].lower()
+                                try:
+                                    qty = float(ing["quantity"])
+                                except (ValueError, TypeError):
+                                    qty = 0.0
+                                unit = ing["unit"].lower()
+
+                                if name not in shopping_list:
+                                    shopping_list[name] = {}
+
+                                if unit not in shopping_list[name]:
+                                    shopping_list[name][unit] = 0.0
+
+                                shopping_list[name][unit] += qty
+
+    osclear()
+    print(f"Shopping List ({start_date} - {start_date + timedelta(days=6)})")
+    print("-" * 40)
+
+    sorted_items = sorted(shopping_list.keys())
+    for item in sorted_items:
+        units_dict = shopping_list[item]
+        parts = []
+        for unit, qty in units_dict.items():
+            # Format to remove trailing zeros if integer
+            qty_str = f"{qty:.2f}".rstrip("0").rstrip(".")
+            parts.append(f"{qty_str} {unit}")
+        print(f"[ ] {item.title()}: {', '.join(parts)}")
+
+    print("-" * 40)
+    input("Press Enter to return...")
 
 
 # Home > 2
@@ -100,14 +171,18 @@ def search_recipes():
     """Search which recipe user wants to view
     Show all recipes available, allow option to search by string
     """
-    data = load_data("recipes.json")
-    all_recipes = sorted(list(data.keys()))
-    total_recipes = len(all_recipes)
-    page_size = 10
-    total_pages = math.ceil(total_recipes / page_size)
     current_page = 1
 
     while True:
+        data = load_data("recipes.json")
+        all_recipes = sorted(list(data.keys()))
+        total_recipes = len(all_recipes)
+        page_size = 10
+        total_pages = math.ceil(total_recipes / page_size)
+
+        if current_page > total_pages and total_pages > 0:
+            current_page = total_pages
+
         osclear()
         print(f"All Recipes (Page {current_page}/{total_pages})")
         print("-" * 30)
@@ -154,10 +229,10 @@ def search_recipes():
 
 def search_recipe_by_name():
     """Finds recipes by name using fuzzy matching"""
-    data = load_data("recipes.json")
-    all_recipes = list(data.keys())
-
     while True:
+        data = load_data("recipes.json")
+        all_recipes = list(data.keys())
+
         osclear()
         print("Search Recipe")
         print("-" * 30)
@@ -273,7 +348,13 @@ def view_recipe(recipe_name):
     """Shows recipe_name"""
     osclear()
     while True:
-        recipe = load_data("recipes.json")[recipe_name]
+        data = load_data("recipes.json")
+        if recipe_name not in data:
+            print("Recipe not found (it may have been deleted).")
+            input("Press Enter to return...")
+            return
+
+        recipe = data[recipe_name]
         ingredients = recipe["ingredients"]
         instructions = recipe["instructions"]
 
@@ -291,6 +372,7 @@ def view_recipe(recipe_name):
         print("\nWhat do you want to do?")
         print("1 - Return")
         print("2 - Add this recipe to calendar")
+        print("3 - Delete recipe")
 
         choice = input("> ").strip()
 
@@ -299,6 +381,15 @@ def view_recipe(recipe_name):
         elif choice == "2":
             print("Feature coming soon.")
             input("Press Enter...")
+        elif choice == "3":
+            confirm = input(
+                f"Are you sure you want to delete '{recipe_name}'? (y/n): "
+            ).lower()
+            if confirm == "y":
+                del data[recipe_name]
+                save_data("recipes.json", data)
+                print("Recipe deleted.")
+                return
         else:
             pass
 
@@ -586,6 +677,291 @@ def recipe_is_unique(recipe_name: str):
 
     logger.info("recipe is unique")
     return True
+
+
+def view_meal_plan():
+    current_date = date.today()
+
+    try:
+        settings = load_data("settings.json")
+        days_to_show = settings.get("days_to_view", 7)
+    except FileNotFoundError:
+        days_to_show = 7
+
+    while True:
+        try:
+            meal_plan = load_data("meal_plan.json")
+        except FileNotFoundError:
+            meal_plan = {}
+
+        osclear()
+        print(
+            f"Meal Plan ({current_date} - {current_date + timedelta(days=days_to_show-1)})"
+        )
+        print("-" * 50)
+
+        week_dates = []
+        for i in range(days_to_show):
+            d = current_date + timedelta(days=i)
+            d_str = d.isoformat()
+            week_dates.append(d)
+
+            day_plan = meal_plan.get(d_str, {})
+            print(f"{i+1}. {d.strftime('%a %d/%m')}:")
+
+            meals_found = False
+            for meal_type in ["breakfast", "lunch", "dinner", "snack"]:
+                items = day_plan.get(meal_type, [])
+                if items:
+                    items_str = ", ".join([x.title() for x in items])
+                    print(f"   {meal_type.title()}: {items_str}")
+                    meals_found = True
+
+            if not meals_found:
+                print("   (Empty)")
+            print("")
+
+        print("-" * 50)
+        print("n - Next Page")
+        print("p - Previous Page")
+        print("t - Jump to Today")
+        print("b - Back")
+        print(f"Select a day number (1-{days_to_show}) to edit.")
+
+        choice = input("> ").lower().strip()
+
+        if choice == "n":
+            current_date += timedelta(days=days_to_show)
+        elif choice == "p":
+            current_date -= timedelta(days=days_to_show)
+        elif choice == "t":
+            current_date = date.today()
+        elif choice == "b":
+            return
+        elif choice.isdigit():
+            idx = int(choice) - 1
+            if 0 <= idx < days_to_show:
+                edit_day(week_dates[idx])
+            else:
+                input_invalid()
+        else:
+            input_invalid()
+
+
+def edit_day(day_date):
+    d_str = day_date.isoformat()
+
+    while True:
+        try:
+            meal_plan = load_data("meal_plan.json")
+        except FileNotFoundError:
+            meal_plan = {}
+
+        day_plan = meal_plan.get(d_str, {})
+
+        osclear()
+        print(f"Editing Plan for {day_date.strftime('%A, %Y-%m-%d')}")
+        print("-" * 30)
+
+        meal_types = ["breakfast", "lunch", "dinner", "snack"]
+
+        for m in meal_types:
+            items = day_plan.get(m, [])
+            print(
+                f"{m.title()}: {', '.join([i.title() for i in items]) if items else '(None)'}"
+            )
+
+        print("-" * 30)
+        print("1 - Add Breakfast")
+        print("2 - Add Lunch")
+        print("3 - Add Dinner")
+        print("4 - Add Snack")
+        print("5 - Clear Day")
+        print("6 - Clear Specific Meal")
+        print("b - Back")
+
+        choice = input("> ").lower().strip()
+
+        if choice == "b":
+            return
+
+        if choice in ["1", "2", "3", "4"]:
+            m_type = meal_types[int(choice) - 1]
+            recipe = select_recipe()
+            if recipe:
+                if d_str not in meal_plan:
+                    meal_plan[d_str] = {}
+                if m_type not in meal_plan[d_str]:
+                    meal_plan[d_str][m_type] = []
+
+                meal_plan[d_str][m_type].append(recipe)
+                save_data("meal_plan.json", meal_plan)
+        elif choice == "5":
+            if d_str in meal_plan:
+                del meal_plan[d_str]
+                save_data("meal_plan.json", meal_plan)
+                print("Cleared day.")
+        elif choice == "6":
+            print("\nSelect meal to clear:")
+            print("1 - Breakfast")
+            print("2 - Lunch")
+            print("3 - Dinner")
+            print("4 - Snack")
+            sub = input("> ").strip()
+            if sub in ["1", "2", "3", "4"]:
+                m_type = meal_types[int(sub) - 1]
+                if d_str in meal_plan and m_type in meal_plan[d_str]:
+                    del meal_plan[d_str][m_type]
+                    if not meal_plan[d_str]:  # Clean up empty day
+                        del meal_plan[d_str]
+                    save_data("meal_plan.json", meal_plan)
+                    print(f"Cleared {m_type}.")
+                else:
+                    print("Nothing to clear.")
+            input("Press Enter...")
+        else:
+            input_invalid()
+
+
+def select_recipe():
+    """Select a recipe to return its name"""
+    current_page = 1
+
+    while True:
+        data = load_data("recipes.json")
+        all_recipes = sorted(list(data.keys()))
+        total_recipes = len(all_recipes)
+        page_size = 10
+        total_pages = math.ceil(total_recipes / page_size)
+
+        if current_page > total_pages and total_pages > 0:
+            current_page = total_pages
+
+        osclear()
+        print(f"Select Recipe (Page {current_page}/{total_pages})")
+        print("-" * 30)
+
+        start_idx = (current_page - 1) * page_size
+        end_idx = start_idx + page_size
+        current_batch = all_recipes[start_idx:end_idx]
+
+        for i, name in enumerate(current_batch, 1):
+            print(f"{i}. {name.title()}")
+
+        print("-" * 30)
+        print("n - Next page")
+        print("p - Previous page")
+        print("b - Cancel")
+        print("(Type recipe name to search directly)")
+
+        choice = input("> ").lower().strip()
+
+        if not choice:
+            continue
+
+        if choice == "n" and current_page < total_pages:
+            current_page += 1
+        elif choice == "p" and current_page > 1:
+            current_page -= 1
+        elif choice == "b":
+            return None
+        elif choice.isdigit():
+            idx = int(choice) - 1
+            if 0 <= idx < len(current_batch):
+                return current_batch[idx]
+            else:
+                input_invalid()
+        else:
+            res = select_recipe_by_name(choice)
+            if res:
+                return res
+
+
+def select_recipe_by_name(initial_query=None):
+    """Fuzzy search for selection"""
+    while True:
+        data = load_data("recipes.json")
+        all_recipes = list(data.keys())
+
+        if initial_query:
+            query = initial_query
+            initial_query = None
+        else:
+            osclear()
+            print("Search Recipe to Select")
+            print("-" * 30)
+            query = input("Enter recipe name (or 'b' to back): ").strip().lower()
+
+        if query == "b":
+            return None
+
+        matches = get_close_matches(query, all_recipes, n=10, cutoff=0.4)
+
+        if not matches:
+            print(f"No matches found for '{query}'.")
+            input("Press Enter to search again...")
+            continue
+
+        osclear()
+        print(f"Matches for '{query}':")
+        print("-" * 30)
+        for i, match in enumerate(matches, 1):
+            print(f"{i}. {match.title()}")
+        print("-" * 30)
+        print("Select a number to pick, 's' to search again, or 'b' to back.")
+        choice = input("> ").lower().strip()
+
+        if choice == "s":
+            continue
+        elif choice.isdigit():
+            idx = int(choice) - 1
+            if 0 <= idx < len(matches):
+                return matches[idx]
+            else:
+                input_invalid()
+        elif choice == "b":
+            return None
+        else:
+            input_invalid()
+
+
+def user_settings():
+    """
+    Allow user to:
+        - select default number of days view for view meal plan
+    """
+    while True:
+        osclear()
+        print("--- User Settings ---")
+        try:
+            settings = load_data("settings.json")
+        except FileNotFoundError:
+            settings = {}
+
+        current_days = settings.get("days_to_view", 7)
+        print(f"1 - Set Meal Plan View Days (Current: {current_days})")
+        print("b - Back")
+
+        choice = input("> ").strip().lower()
+
+        if choice == "b":
+            return
+        elif choice == "1":
+            try:
+                val = int(input("Enter number of days (1-14): "))
+                if 1 <= val <= 14:
+                    settings["days_to_view"] = val
+                    save_data("settings.json", settings)
+                    print("Settings saved.")
+                    input("Press Enter...")
+                else:
+                    print("Please enter a value between 1 and 14.")
+                    input("Press Enter...")
+            except ValueError:
+                print("Invalid input.")
+                input("Press Enter...")
+        else:
+            input_invalid()
 
 
 if __name__ == "__main__":
