@@ -36,6 +36,114 @@ def save_data(file_path, data):
         json.dump(data, f, indent=4)
 
 
+# --- Backend API ---
+
+
+def get_all_recipes():
+    try:
+        return load_data("recipes.json")
+    except FileNotFoundError:
+        return {}
+
+
+def get_all_ingredients():
+    try:
+        return load_data("ingredients.json")
+    except FileNotFoundError:
+        return []
+
+
+def save_ingredient(name):
+    ingredients = get_all_ingredients()
+    if name not in ingredients:
+        ingredients.append(name)
+        ingredients.sort()
+        save_data("ingredients.json", ingredients)
+
+
+def add_recipe(name, ingredients, instructions):
+    recipes = get_all_recipes()
+    recipes[name] = {"ingredients": ingredients, "instructions": instructions}
+    save_data("recipes.json", recipes)
+    # Ensure ingredients are in the ingredients database
+    for ing in ingredients:
+        save_ingredient(ing["item"])
+
+
+def delete_recipe(name):
+    recipes = get_all_recipes()
+    if name in recipes:
+        del recipes[name]
+        save_data("recipes.json", recipes)
+        return True
+    return False
+
+
+def get_meal_plan():
+    try:
+        return load_data("meal_plan.json")
+    except FileNotFoundError:
+        return {}
+
+
+def update_meal_plan(date_str, meal_type, recipe_name):
+    plan = get_meal_plan()
+    if date_str not in plan:
+        plan[date_str] = {}
+    if meal_type not in plan[date_str]:
+        plan[date_str][meal_type] = []
+
+    plan[date_str][meal_type].append(recipe_name)
+    save_data("meal_plan.json", plan)
+
+
+def remove_from_meal_plan(date_str, meal_type, index):
+    plan = get_meal_plan()
+    if date_str in plan and meal_type in plan[date_str]:
+        try:
+            plan[date_str][meal_type].pop(index)
+            # Cleanup
+            if not plan[date_str][meal_type]:
+                del plan[date_str][meal_type]
+            if not plan[date_str]:
+                del plan[date_str]
+            save_data("meal_plan.json", plan)
+        except IndexError:
+            pass
+
+
+def generate_shopping_list_data(start_date, days):
+    meal_plan = get_meal_plan()
+    recipes_data = get_all_recipes()
+    shopping_list = {}
+
+    for i in range(days):
+        d = start_date + timedelta(days=i)
+        d_str = d.isoformat()
+
+        if d_str in meal_plan:
+            day_plan = meal_plan[d_str]
+            for meal_type in ["breakfast", "lunch", "dinner", "snack"]:
+                if meal_type in day_plan:
+                    for recipe_name in day_plan[meal_type]:
+                        if recipe_name in recipes_data:
+                            ing_list = recipes_data[recipe_name].get("ingredients", [])
+                            for ing in ing_list:
+                                name = ing["item"].lower()
+                                try:
+                                    qty = float(ing["quantity"])
+                                except (ValueError, TypeError):
+                                    qty = 0.0
+                                unit = ing["unit"].lower()
+
+                                if name not in shopping_list:
+                                    shopping_list[name] = {}
+                                if unit not in shopping_list[name]:
+                                    shopping_list[name][unit] = 0.0
+                                shopping_list[name][unit] += qty
+    return shopping_list
+
+
 def main():
     while True:
         osclear()
@@ -75,50 +183,8 @@ def generate_shopping_list():
     print("--- Generate Shopping List ---")
     print("Generating list for the next 7 days...")
 
-    try:
-        meal_plan = load_data("meal_plan.json")
-    except FileNotFoundError:
-        print("No meal plan found.")
-        input("Press Enter...")
-        return
-
-    try:
-        recipes_data = load_data("recipes.json")
-    except FileNotFoundError:
-        print("No recipes found.")
-        input("Press Enter...")
-        return
-
     start_date = date.today()
-    shopping_list = {}
-
-    for i in range(7):
-        d = start_date + timedelta(days=i)
-        d_str = d.isoformat()
-
-        if d_str in meal_plan:
-            day_plan = meal_plan[d_str]
-            for meal_type in ["breakfast", "lunch", "dinner", "snack"]:
-                if meal_type in day_plan:
-                    for recipe_name in day_plan[meal_type]:
-                        if recipe_name in recipes_data:
-                            ing_list = recipes_data[recipe_name].get("ingredients", [])
-                            for ing in ing_list:
-                                name = ing["item"].lower()
-                                try:
-                                    qty = float(ing["quantity"])
-                                except (ValueError, TypeError):
-                                    qty = 0.0
-                                unit = ing["unit"].lower()
-
-                                if name not in shopping_list:
-                                    shopping_list[name] = {}
-
-                                if unit not in shopping_list[name]:
-                                    shopping_list[name][unit] = 0.0
-
-                                shopping_list[name][unit] += qty
-
+    shopping_list = generate_shopping_list_data(start_date, 7)
     osclear()
     print(f"Shopping List ({start_date} - {start_date + timedelta(days=6)})")
     print("-" * 40)
@@ -386,8 +452,7 @@ def view_recipe(recipe_name):
                 f"Are you sure you want to delete '{recipe_name}'? (y/n): "
             ).lower()
             if confirm == "y":
-                del data[recipe_name]
-                save_data("recipes.json", data)
+                delete_recipe(recipe_name)
                 print("Recipe deleted.")
                 return
         else:
@@ -645,11 +710,7 @@ def create_new_ingredient():
 
 def save_new_recipe_to_file(name, ingredients, instructions):
     """Helper to save the final recipe"""
-    recipes = load_data("recipes.json")
-
-    recipes[name] = {"ingredients": ingredients, "instructions": instructions}
-
-    save_data("recipes.json", recipes)
+    add_recipe(name, ingredients, instructions)
     print(f"\nRecipe '{name}' saved successfully!")
     input("Press Enter to continue...")
 
@@ -789,13 +850,7 @@ def edit_day(day_date):
             m_type = meal_types[int(choice) - 1]
             recipe = select_recipe()
             if recipe:
-                if d_str not in meal_plan:
-                    meal_plan[d_str] = {}
-                if m_type not in meal_plan[d_str]:
-                    meal_plan[d_str][m_type] = []
-
-                meal_plan[d_str][m_type].append(recipe)
-                save_data("meal_plan.json", meal_plan)
+                update_meal_plan(d_str, m_type, recipe)
         elif choice == "5":
             if d_str in meal_plan:
                 del meal_plan[d_str]
