@@ -1,4 +1,9 @@
-# cli.py
+"""
+Command Line Interface (CLI) and Backend Logic for the Meal Planner application.
+This module handles data persistence (JSON), core business logic (shopping list generation),
+and provides a terminal-based user interface.
+"""
+
 from difflib import get_close_matches
 from logger import logger
 
@@ -8,13 +13,13 @@ import math  # Added for pagination calculations
 from datetime import date, timedelta
 
 
-def osclear():
-    """sole job is to clear"""
-    os.system("cls" if os.name == "nt" else "clear")
-
-
 import json
 from pathlib import Path
+
+
+def osclear():
+    """Clears the terminal screen based on the operating system."""
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -40,6 +45,7 @@ def save_data(file_path, data):
 
 
 def get_all_recipes():
+    """Retrieves all recipes from 'recipes.json'."""
     try:
         return load_data("recipes.json")
     except FileNotFoundError:
@@ -47,6 +53,7 @@ def get_all_recipes():
 
 
 def get_all_ingredients():
+    """Retrieves the list of known ingredients from 'ingredients.json'."""
     try:
         return load_data("ingredients.json")
     except FileNotFoundError:
@@ -54,6 +61,7 @@ def get_all_ingredients():
 
 
 def save_ingredient(name):
+    """Saves a new ingredient to the database if it doesn't exist."""
     ingredients = get_all_ingredients()
     if name not in ingredients:
         ingredients.append(name)
@@ -62,6 +70,7 @@ def save_ingredient(name):
 
 
 def add_recipe(name, ingredients, instructions):
+    """Adds a new recipe or updates an existing one, then saves to storage."""
     recipes = get_all_recipes()
     recipes[name] = {"ingredients": ingredients, "instructions": instructions}
     save_data("recipes.json", recipes)
@@ -71,6 +80,7 @@ def add_recipe(name, ingredients, instructions):
 
 
 def delete_recipe(name):
+    """Deletes a recipe by name if it exists."""
     recipes = get_all_recipes()
     if name in recipes:
         del recipes[name]
@@ -80,6 +90,7 @@ def delete_recipe(name):
 
 
 def get_meal_plan():
+    """Retrieves the current meal plan structure from 'meal_plan.json'."""
     try:
         return load_data("meal_plan.json")
     except FileNotFoundError:
@@ -87,6 +98,7 @@ def get_meal_plan():
 
 
 def update_meal_plan(date_str, meal_type, recipe_name):
+    """Adds a recipe to the meal plan for a specific date and meal type."""
     plan = get_meal_plan()
     if date_str not in plan:
         plan[date_str] = {}
@@ -98,6 +110,7 @@ def update_meal_plan(date_str, meal_type, recipe_name):
 
 
 def remove_from_meal_plan(date_str, meal_type, index):
+    """Removes a recipe from the meal plan at the specified index."""
     plan = get_meal_plan()
     if date_str in plan and meal_type in plan[date_str]:
         try:
@@ -113,6 +126,16 @@ def remove_from_meal_plan(date_str, meal_type, index):
 
 
 def generate_shopping_list_data(start_date, days):
+    """
+    Calculates the total ingredients needed for the meal plan over a date range.
+
+    Args:
+        start_date (date): The starting date.
+        days (int): Number of days to look ahead.
+
+    Returns:
+        dict: A dictionary of ingredients and their aggregated quantities/units.
+    """
     meal_plan = get_meal_plan()
     recipes_data = get_all_recipes()
     shopping_list = {}
@@ -144,7 +167,9 @@ def generate_shopping_list_data(start_date, days):
     return shopping_list
 
 
+# --- CLI ---
 def main():
+    """Main entry point for the CLI application loop."""
     while True:
         osclear()
         print("Welcome to Recipe App!")
@@ -166,19 +191,19 @@ def main():
         elif choice == "4":
             user_settings()
         elif choice == "q":
-            # TODO
             sys.exit()
         else:
             input_invalid()
 
 
 def input_invalid():
-    """tell user input is invalid"""
+    """Displays an error message for invalid input and waits for user acknowledgement."""
     print("Please enter a valid choice.")
     input("Press Enter to continue...")
 
 
 def generate_shopping_list():
+    """CLI wrapper to generate and display the shopping list."""
     osclear()
     print("--- Generate Shopping List ---")
     print("Generating list for the next 7 days...")
@@ -205,12 +230,13 @@ def generate_shopping_list():
 
 # Home > 2
 def view_all_recipes():
+    """Placeholder for viewing all recipes (currently handled via search)."""
     pass
 
 
 # Home > 3
 def recipes_front_page():
-    """landing page for recipes"""
+    """Landing page menu for the Recipes section."""
     while True:
         osclear()
         print("Recipes")
@@ -234,8 +260,9 @@ def recipes_front_page():
 
 # Home > 3 > 1
 def search_recipes():
-    """Search which recipe user wants to view
-    Show all recipes available, allow option to search by string
+    """
+    Displays a paginated list of all recipes.
+    Allows navigation and searching by name.
     """
     current_page = 1
 
@@ -294,7 +321,7 @@ def search_recipes():
 
 
 def search_recipe_by_name():
-    """Finds recipes by name using fuzzy matching"""
+    """Finds recipes by name using fuzzy matching and allows selection."""
     while True:
         data = load_data("recipes.json")
         all_recipes = list(data.keys())
@@ -342,6 +369,7 @@ def search_recipe_by_name():
 
 # Home > 3 > 2
 def get_recipe_name():
+    """Step 1 of Recipe Creation: Prompts user for a unique recipe name."""
     while True:
         print("Add recipe name (or 'b' to back):")
         new_recipe_name = input().lower().strip()
@@ -377,6 +405,7 @@ def get_recipe_name():
 
 # Home > 3 > 2 > existing recipe found
 def show_existing_recipes(matches, recipe_name):
+    """Handles the case where a new recipe name conflicts with existing ones."""
     logger.debug("running show_existing_recipes")
 
     while True:
@@ -411,7 +440,7 @@ def show_existing_recipes(matches, recipe_name):
 
 
 def view_recipe(recipe_name):
-    """Shows recipe_name"""
+    """Displays the details (ingredients, instructions) of a specific recipe."""
     osclear()
     while True:
         data = load_data("recipes.json")
@@ -461,6 +490,7 @@ def view_recipe(recipe_name):
 
 # Home > 3 > 2 > create new recipe (Step 1)
 def get_ingredients_from_user(recipe_name, ingredients=None):
+    """Interactive CLI loop to add or edit ingredients for a recipe."""
     if ingredients is None:
         ingredients = []
 
@@ -606,6 +636,7 @@ def get_ingredients_from_user(recipe_name, ingredients=None):
 
 # Home > 3 > 2 > create new recipe (Step 2)
 def get_instructions_from_user(recipe_name, ingredients):
+    """Interactive CLI loop to add or edit instructions for a recipe."""
     instructions = []
     while True:
         osclear()
@@ -678,7 +709,7 @@ def get_instructions_from_user(recipe_name, ingredients):
 
 
 def create_new_ingredient():
-    """Creates a new ingredient and adds it to ingredients.json"""
+    """Prompts user to create a new ingredient and saves it to the database."""
     while True:
         osclear()
         print("--- Create New Ingredient ---")
@@ -709,7 +740,7 @@ def create_new_ingredient():
 
 
 def save_new_recipe_to_file(name, ingredients, instructions):
-    """Helper to save the final recipe"""
+    """Helper function to finalize and save a new recipe."""
     add_recipe(name, ingredients, instructions)
     print(f"\nRecipe '{name}' saved successfully!")
     input("Press Enter to continue...")
@@ -741,6 +772,7 @@ def recipe_is_unique(recipe_name: str):
 
 
 def view_meal_plan():
+    """Displays the meal plan in a paginated daily view."""
     current_date = date.today()
 
     try:
@@ -810,6 +842,7 @@ def view_meal_plan():
 
 
 def edit_day(day_date):
+    """Interactive menu to modify the meal plan for a specific day."""
     d_str = day_date.isoformat()
 
     while True:
@@ -879,7 +912,7 @@ def edit_day(day_date):
 
 
 def select_recipe():
-    """Select a recipe to return its name"""
+    """Displays a paginated list of recipes for the user to select one."""
     current_page = 1
 
     while True:
@@ -933,7 +966,7 @@ def select_recipe():
 
 
 def select_recipe_by_name(initial_query=None):
-    """Fuzzy search for selection"""
+    """Fuzzy search helper for selecting a recipe by name."""
     while True:
         data = load_data("recipes.json")
         all_recipes = list(data.keys())
@@ -982,8 +1015,8 @@ def select_recipe_by_name(initial_query=None):
 
 def user_settings():
     """
-    Allow user to:
-        - select default number of days view for view meal plan
+    Menu for modifying user preferences.
+    Currently supports: Setting the default number of days to view in the meal plan.
     """
     while True:
         osclear()
