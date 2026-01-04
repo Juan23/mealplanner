@@ -69,10 +69,14 @@ def save_ingredient(name):
         save_data("ingredients.json", ingredients)
 
 
-def add_recipe(name, ingredients, instructions):
+def add_recipe(name, ingredients, instructions, servings=1):
     """Adds a new recipe or updates an existing one, then saves to storage."""
     recipes = get_all_recipes()
-    recipes[name] = {"ingredients": ingredients, "instructions": instructions}
+    recipes[name] = {
+        "ingredients": ingredients,
+        "instructions": instructions,
+        "servings": servings,
+    }
     save_data("recipes.json", recipes)
     # Ensure ingredients are in the ingredients database
     for ing in ingredients:
@@ -97,7 +101,7 @@ def get_meal_plan():
         return {}
 
 
-def update_meal_plan(date_str, meal_type, recipe_name):
+def update_meal_plan(date_str, meal_type, recipe_name, servings=1):
     """Adds a recipe to the meal plan for a specific date and meal type."""
     plan = get_meal_plan()
     if date_str not in plan:
@@ -105,7 +109,7 @@ def update_meal_plan(date_str, meal_type, recipe_name):
     if meal_type not in plan[date_str]:
         plan[date_str][meal_type] = []
 
-    plan[date_str][meal_type].append(recipe_name)
+    plan[date_str][meal_type].append({"recipe": recipe_name, "servings": servings})
     save_data("meal_plan.json", plan)
 
 
@@ -120,6 +124,24 @@ def remove_from_meal_plan(date_str, meal_type, index):
                 del plan[date_str][meal_type]
             if not plan[date_str]:
                 del plan[date_str]
+            save_data("meal_plan.json", plan)
+        except IndexError:
+            pass
+
+
+def update_meal_plan_entry_servings(date_str, meal_type, index, servings):
+    """Updates the servings for a specific meal plan entry."""
+    plan = get_meal_plan()
+    if date_str in plan and meal_type in plan[date_str]:
+        try:
+            entry = plan[date_str][meal_type][index]
+            if isinstance(entry, dict):
+                entry["servings"] = servings
+            else:
+                plan[date_str][meal_type][index] = {
+                    "recipe": entry,
+                    "servings": servings,
+                }
             save_data("meal_plan.json", plan)
         except IndexError:
             pass
@@ -148,13 +170,30 @@ def generate_shopping_list_data(start_date, days):
             day_plan = meal_plan[d_str]
             for meal_type in ["breakfast", "lunch", "dinner", "snack"]:
                 if meal_type in day_plan:
-                    for recipe_name in day_plan[meal_type]:
+                    for entry in day_plan[meal_type]:
+                        if isinstance(entry, dict):
+                            recipe_name = entry["recipe"]
+                            planned_servings = float(entry.get("servings", 1))
+                        else:
+                            recipe_name = entry
+                            planned_servings = None
+
                         if recipe_name in recipes_data:
-                            ing_list = recipes_data[recipe_name].get("ingredients", [])
+                            r_data = recipes_data[recipe_name]
+                            base_servings = float(r_data.get("servings", 1))
+                            if planned_servings is None:
+                                planned_servings = base_servings
+
+                            scaling = (
+                                planned_servings / base_servings
+                                if base_servings
+                                else 1.0
+                            )
+                            ing_list = r_data.get("ingredients", [])
                             for ing in ing_list:
                                 name = ing["item"].lower()
                                 try:
-                                    qty = float(ing["quantity"])
+                                    qty = float(ing["quantity"]) * scaling
                                 except (ValueError, TypeError):
                                     qty = 0.0
                                 unit = ing["unit"].lower()
@@ -385,6 +424,11 @@ def get_recipe_name():
 
         if (similar_recipes := recipe_is_unique(new_recipe_name)) is True:
             logger.debug("recipe name is unique, getting ingredients from user")
+            try:
+                servings = float(input("Servings (default 1): ") or 1)
+            except ValueError:
+                servings = 1
+
             # Step 1: Get Ingredients
             ingredients = get_ingredients_from_user(new_recipe_name)
 
@@ -393,7 +437,7 @@ def get_recipe_name():
                 return
 
             # Step 2: Get Instructions
-            get_instructions_from_user(new_recipe_name, ingredients)
+            get_instructions_from_user(new_recipe_name, ingredients, servings)
 
             # Return to menu after finishing (save or discard)
             return
@@ -422,9 +466,14 @@ def show_existing_recipes(matches, recipe_name):
             return
 
         if choice == "c":
+            try:
+                servings = float(input("Servings (default 1): ") or 1)
+            except ValueError:
+                servings = 1
+
             ingredients = get_ingredients_from_user(recipe_name)
             if ingredients is not None:
-                get_instructions_from_user(recipe_name, ingredients)
+                get_instructions_from_user(recipe_name, ingredients, servings)
             return
 
         if not choice.isdigit():
@@ -452,8 +501,10 @@ def view_recipe(recipe_name):
         recipe = data[recipe_name]
         ingredients = recipe["ingredients"]
         instructions = recipe["instructions"]
+        servings = recipe.get("servings", 1)
 
         print(f"--- {recipe_name.title()} ---")
+        print(f"Serves: {servings}")
         print("\nIngredients")
         for ingredient in ingredients:
             print(
@@ -635,7 +686,7 @@ def get_ingredients_from_user(recipe_name, ingredients=None):
 
 
 # Home > 3 > 2 > create new recipe (Step 2)
-def get_instructions_from_user(recipe_name, ingredients):
+def get_instructions_from_user(recipe_name, ingredients, servings=1):
     """Interactive CLI loop to add or edit instructions for a recipe."""
     instructions = []
     while True:
@@ -668,7 +719,7 @@ def get_instructions_from_user(recipe_name, ingredients):
                 return
 
         elif cmd in ["save", "done", "s"] and instructions:
-            save_new_recipe_to_file(recipe_name, ingredients, instructions)
+            save_new_recipe_to_file(recipe_name, ingredients, instructions, servings)
             return
 
         elif cmd == "edit" and instructions:
@@ -739,9 +790,9 @@ def create_new_ingredient():
             return None
 
 
-def save_new_recipe_to_file(name, ingredients, instructions):
+def save_new_recipe_to_file(name, ingredients, instructions, servings=1):
     """Helper function to finalize and save a new recipe."""
-    add_recipe(name, ingredients, instructions)
+    add_recipe(name, ingredients, instructions, servings)
     print(f"\nRecipe '{name}' saved successfully!")
     input("Press Enter to continue...")
 
@@ -806,7 +857,15 @@ def view_meal_plan():
             for meal_type in ["breakfast", "lunch", "dinner", "snack"]:
                 items = day_plan.get(meal_type, [])
                 if items:
-                    items_str = ", ".join([x.title() for x in items])
+                    display_items = []
+                    for x in items:
+                        if isinstance(x, dict):
+                            display_items.append(
+                                f"{x['recipe'].title()} ({x['servings']})"
+                            )
+                        else:
+                            display_items.append(x.title())
+                    items_str = ", ".join(display_items)
                     print(f"   {meal_type.title()}: {items_str}")
                     meals_found = True
 
@@ -861,8 +920,14 @@ def edit_day(day_date):
 
         for m in meal_types:
             items = day_plan.get(m, [])
+            display_items = []
+            for x in items:
+                if isinstance(x, dict):
+                    display_items.append(f"{x['recipe'].title()} ({x['servings']})")
+                else:
+                    display_items.append(x.title())
             print(
-                f"{m.title()}: {', '.join([i.title() for i in items]) if items else '(None)'}"
+                f"{m.title()}: {', '.join(display_items) if display_items else '(None)'}"
             )
 
         print("-" * 30)
@@ -883,7 +948,13 @@ def edit_day(day_date):
             m_type = meal_types[int(choice) - 1]
             recipe = select_recipe()
             if recipe:
-                update_meal_plan(d_str, m_type, recipe)
+                r_data = load_data("recipes.json").get(recipe, {})
+                base = r_data.get("servings", 1)
+                try:
+                    s_val = float(input(f"Servings to make (default {base}): ") or base)
+                except ValueError:
+                    s_val = base
+                update_meal_plan(d_str, m_type, recipe, s_val)
         elif choice == "5":
             if d_str in meal_plan:
                 del meal_plan[d_str]

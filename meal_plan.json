@@ -8,5 +8,35 @@
         "breakfast": [
             "chicken curry"
         ]
+    },
+    "2026-01-09": {
+        "breakfast": [
+            "steamed rice",
+            "steamed rice"
+        ]
+    },
+    "2026-01-05": {
+        "breakfast": [
+            {
+                "recipe": "brownies",
+                "servings": 1
+            },
+            {
+                "recipe": "caesar salad",
+                "servings": 2
+            },
+            {
+                "recipe": "banana bread",
+                "servings": 1
+            }
+        ]
+    },
+    "2026-01-06": {
+        "breakfast": [
+            {
+                "recipe": "brownies",
+                "servings": 6
+            }
+        ]
     }
 }

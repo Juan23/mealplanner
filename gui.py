@@ -37,7 +37,6 @@ def main_page():
     Includes the header, navigation tabs, and the container for tab panels.
     """
     ui.colors(primary="#5898d4")
-    ui.dark_mode().auto()
 
     # --- Header & Navigation ---
     with ui.header(elevated=True).classes(
@@ -147,11 +146,30 @@ def render_meal_plan_tab():
                                 items = day_data.get(m_type, [])
                                 if items:
                                     for idx, item in enumerate(items):
+                                        if isinstance(item, dict):
+                                            r_name = item.get("recipe", "Unknown")
+                                            servings = item.get("servings", 1)
+                                            display_text = f"{r_name} ({servings})"
+                                        else:
+                                            r_name = item
+                                            servings = None
+                                            display_text = item
+
                                         with ui.row().classes(
                                             "w-full justify-between items-center"
                                         ):
-                                            ui.label(item).classes(
-                                                "text-sm dark:text-gray-200"
+                                            ui.label(display_text).classes(
+                                                "text-sm dark:text-gray-200 cursor-pointer hover:underline"
+                                            ).on(
+                                                "click",
+                                                lambda _, n=r_name, s=servings, d=d_str, m=m_type, i=idx: open_recipe_details_dialog(
+                                                    n,
+                                                    s,
+                                                    on_servings_change=lambda val: cli.update_meal_plan_entry_servings(
+                                                        d, m, i, val
+                                                    ),
+                                                    on_close=lambda: refresh_plan(),
+                                                ),
                                             )
                                             ui.button(
                                                 icon="close",
@@ -174,6 +192,99 @@ def render_meal_plan_tab():
         def reset_date():
             state["current_date"] = date.today()
             refresh_plan()
+
+
+def open_recipe_details_dialog(
+    recipe_name, initial_servings=None, on_servings_change=None, on_close=None
+):
+    """Opens a dialog showing details for the specified recipe."""
+    recipes = cli.get_all_recipes()
+    recipe_data = recipes.get(recipe_name)
+
+    with ui.dialog() as dialog, ui.card().classes(
+        "w-full max-w-lg bg-white dark:bg-gray-900"
+    ):
+        if not recipe_data:
+            ui.label(f"Recipe '{recipe_name}' not found.").classes("text-red-500")
+        else:
+            base_servings = float(recipe_data.get("servings", 1))
+            current_servings = (
+                int(float(initial_servings)) if initial_servings else int(base_servings)
+            )
+
+            with ui.row().classes("w-full justify-between items-center"):
+                ui.label(recipe_name.title()).classes(
+                    "text-xl font-bold dark:text-gray-100"
+                )
+
+                with ui.row().classes(
+                    "items-center bg-gray-100 dark:bg-gray-800 rounded px-2"
+                ):
+                    ui.label("Serves:").classes(
+                        "text-sm text-gray-600 dark:text-gray-300 mr-2"
+                    )
+                    ui.button(
+                        icon="remove", on_click=lambda: adjust_servings(-1)
+                    ).props("flat dense round size=sm")
+                    servings_label = ui.label(f"{current_servings}").classes(
+                        "text-lg font-bold w-8 text-center dark:text-gray-100"
+                    )
+                    ui.button(icon="add", on_click=lambda: adjust_servings(1)).props(
+                        "flat dense round size=sm"
+                    )
+
+            ui.separator()
+
+            ui.label("Ingredients").classes("font-bold mt-2 dark:text-gray-100")
+            ingredients_container = ui.column().classes("ml-2 gap-0")
+
+            def update_ingredients(servings_val):
+                ingredients_container.clear()
+                try:
+                    s_val = float(servings_val)
+                except (ValueError, TypeError):
+                    s_val = base_servings
+
+                ratio = s_val / base_servings if base_servings else 1.0
+
+                with ingredients_container:
+                    for ing in recipe_data.get("ingredients", []):
+                        try:
+                            qty = float(ing["quantity"]) * ratio
+                            qty_str = f"{qty:.2f}".rstrip("0").rstrip(".")
+                        except (ValueError, TypeError):
+                            qty_str = ing["quantity"]
+
+                        ui.label(f"• {qty_str} {ing['unit']} {ing['item']}").classes(
+                            "text-sm dark:text-gray-200"
+                        )
+
+            def adjust_servings(delta):
+                try:
+                    current = int(servings_label.text)
+                except ValueError:
+                    current = 1
+                new_val = max(1, current + delta)
+                servings_label.set_text(str(new_val))
+                update_ingredients(new_val)
+                if on_servings_change:
+                    on_servings_change(new_val)
+
+            # Initial render
+            update_ingredients(current_servings)
+
+            ui.label("Instructions").classes("font-bold mt-2 dark:text-gray-100")
+            with ui.column().classes("ml-2 gap-1"):
+                for i, step in enumerate(recipe_data.get("instructions", []), 1):
+                    ui.label(f"{i}. {step}").classes("text-sm dark:text-gray-200")
+
+        with ui.row().classes("w-full justify-end mt-4"):
+            ui.button("Close", on_click=dialog.close).props("flat")
+
+    if on_close:
+        dialog.on("dismiss", on_close)
+
+    dialog.open()
 
 
 def open_add_meal_dialog(date_str, meal_type, callback):
@@ -282,6 +393,7 @@ def open_recipe_editor(existing_name, callback):
         ui.label("New Recipe").classes("text-xl font-bold dark:text-gray-100")
 
         name_input = ui.input("Recipe Name").classes("w-full")
+        servings_input = ui.number("Servings", value=1, min=1).classes("w-full")
 
         ui.label("Ingredients").classes("font-bold mt-2 dark:text-gray-100")
         ing_container = ui.column().classes("w-full")
@@ -367,7 +479,10 @@ def open_recipe_editor(existing_name, callback):
             def save():
                 if name_input.value:
                     cli.add_recipe(
-                        name_input.value.lower(), ingredients_list, instructions_list
+                        name_input.value.lower(),
+                        ingredients_list,
+                        instructions_list,
+                        servings=float(servings_input.value or 1),
                     )
                     callback()
                     dialog.close()

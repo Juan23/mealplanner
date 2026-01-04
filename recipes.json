@@ -1,900 +1,2213 @@
 {
-  "chicken curry": {
-    "ingredients": [
-      {"item": "chicken", "quantity": 500, "unit": "g"},
-      {"item": "onion", "quantity": 2, "unit": "pcs"},
-      {"item": "garlic", "quantity": 3, "unit": "cloves"},
-      {"item": "ginger", "quantity": 1, "unit": "tbsp"},
-      {"item": "tomato", "quantity": 2, "unit": "pcs"},
-      {"item": "curry powder", "quantity": 2, "unit": "tsp"},
-      {"item": "turmeric", "quantity": 1, "unit": "tsp"},
-      {"item": "cumin", "quantity": 1, "unit": "tsp"},
-      {"item": "coconut milk", "quantity": 200, "unit": "ml"},
-      {"item": "vegetable oil", "quantity": 2, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Heat oil in a pan.",
-      "Sauté onion, garlic, ginger until soft.",
-      "Add chicken and brown.",
-      "Add spices and tomatoes.",
-      "Pour coconut milk and simmer until cooked.",
-      "Season with salt and pepper."
-    ]
-  },
-  "beef stew": {
-    "ingredients": [
-      {"item": "beef chunks", "quantity": 600, "unit": "g"},
-      {"item": "potato", "quantity": 3, "unit": "pcs"},
-      {"item": "carrot", "quantity": 2, "unit": "pcs"},
-      {"item": "celery", "quantity": 2, "unit": "stalks"},
-      {"item": "onion", "quantity": 1, "unit": "pcs"},
-      {"item": "beef stock", "quantity": 500, "unit": "ml"},
-      {"item": "tomato paste", "quantity": 2, "unit": "tbsp"},
-      {"item": "flour", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Coat beef in flour then brown in pot.",
-      "Add onion, carrot, celery and cook briefly.",
-      "Stir in tomato paste.",
-      "Add stock and simmer until beef is tender.",
-      "Add potatoes and cook until soft.",
-      "Season and serve."
-    ]
-  },
-  "fried rice": {
-    "ingredients": [
-      {"item": "cooked rice", "quantity": 400, "unit": "g"},
-      {"item": "egg", "quantity": 2, "unit": "pcs"},
-      {"item": "carrot", "quantity": 1, "unit": "pcs"},
-      {"item": "peas", "quantity": 100, "unit": "g"},
-      {"item": "soy sauce", "quantity": 2, "unit": "tbsp"},
-      {"item": "sesame oil", "quantity": 1, "unit": "tbsp"},
-      {"item": "spring onion", "quantity": 2, "unit": "stalks"}
-    ],
-    "instructions": [
-      "Scramble eggs and set aside.",
-      "Stir fry vegetables briefly.",
-      "Add rice and mix well.",
-      "Stir in soy sauce and sesame oil.",
-      "Add eggs and spring onions.",
-      "Cook until heated through."
-    ]
-  },
-  "spaghetti bolognese": {
-    "ingredients": [
-      {"item": "spaghetti", "quantity": 400, "unit": "g"},
-      {"item": "ground beef", "quantity": 500, "unit": "g"},
-      {"item": "onion", "quantity": 1, "unit": "pcs"},
-      {"item": "garlic", "quantity": 2, "unit": "cloves"},
-      {"item": "tomato sauce", "quantity": 400, "unit": "ml"},
-      {"item": "olive oil", "quantity": 2, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Cook spaghetti according to package.",
-      "Sauté onion and garlic in oil.",
-      "Add ground beef and brown.",
-      "Stir in tomato sauce and simmer.",
-      "Season and serve over pasta."
-    ]
-  },
-  "pancakes": {
-    "ingredients": [
-      {"item": "flour", "quantity": 200, "unit": "g"},
-      {"item": "milk", "quantity": 300, "unit": "ml"},
-      {"item": "egg", "quantity": 2, "unit": "pcs"},
-      {"item": "butter", "quantity": 2, "unit": "tbsp"},
-      {"item": "sugar", "quantity": 1, "unit": "tbsp"},
-      {"item": "salt", "quantity": 0.5, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Mix flour, sugar, and salt.",
-      "Whisk in milk and eggs.",
-      "Heat butter in pan.",
-      "Pour batter and cook until golden.",
-      "Flip and cook other side."
-    ]
-  },
-  "omelette": {
-    "ingredients": [
-      {"item": "egg", "quantity": 3, "unit": "pcs"},
-      {"item": "milk", "quantity": 30, "unit": "ml"},
-      {"item": "cheddar cheese", "quantity": 50, "unit": "g"},
-      {"item": "butter", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Beat eggs with milk, salt and pepper.",
-      "Heat butter in a pan.",
-      "Pour egg mixture.",
-      "Add cheese.",
-      "Fold when set."
-    ]
-  },
-  "caesar salad": {
-    "ingredients": [
-      {"item": "romaine lettuce", "quantity": 1, "unit": "head"},
-      {"item": "croutons", "quantity": 100, "unit": "g"},
-      {"item": "parmesan", "quantity": 50, "unit": "g"},
-      {"item": "lemon juice", "quantity": 2, "unit": "tbsp"},
-      {"item": "olive oil", "quantity": 3, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Chop lettuce.",
-      "Mix dressing (lemon + oil + salt + pepper).",
-      "Toss lettuce with dressing.",
-      "Add croutons and parmesan."
-    ]
-  },
-  "tomato soup": {
-    "ingredients": [
-      {"item": "tomato", "quantity": 800, "unit": "g"},
-      {"item": "onion", "quantity": 1, "unit": "pcs"},
-      {"item": "vegetable stock", "quantity": 500, "unit": "ml"},
-      {"item": "basil", "quantity": 1, "unit": "tbsp"},
-      {"item": "olive oil", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Sauté onion in oil.",
-      "Add tomatoes and stock, simmer.",
-      "Blend until smooth.",
-      "Stir in basil, season and serve."
-    ]
-  },
-  "tuna melt sandwich": {
-    "ingredients": [
-      {"item": "canned tuna", "quantity": 150, "unit": "g"},
-      {"item": "mayonnaise", "quantity": 2, "unit": "tbsp"},
-      {"item": "celery", "quantity": 1, "unit": "stalk"},
-      {"item": "cheddar cheese", "quantity": 50, "unit": "g"},
-      {"item": "bread slices", "quantity": 2, "unit": "pcs"}
-    ],
-    "instructions": [
-      "Mix tuna, mayo, and chopped celery.",
-      "Spread tuna mixture on one slice of bread.",
-      "Top with cheese and the other slice.",
-      "Grill or toast until bread is golden and cheese is melted."
-    ]
-  },
-  "chocolate chip cookies": {
-    "ingredients": [
-      {"item": "all-purpose flour", "quantity": 250, "unit": "g"},
-      {"item": "butter", "quantity": 150, "unit": "g"},
-      {"item": "brown sugar", "quantity": 100, "unit": "g"},
-      {"item": "granulated sugar", "quantity": 50, "unit": "g"},
-      {"item": "egg", "quantity": 1, "unit": "pcs"},
-      {"item": "vanilla extract", "quantity": 1, "unit": "tsp"},
-      {"item": "baking soda", "quantity": 0.5, "unit": "tsp"},
-      {"item": "salt", "quantity": 0.5, "unit": "tsp"},
-      {"item": "chocolate chips", "quantity": 200, "unit": "g"}
-    ],
-    "instructions": [
-      "Preheat oven to 180°C.",
-      "Cream butter and sugars.",
-      "Beat in egg and vanilla.",
-      "Mix in flour, baking soda, and salt.",
-      "Fold in chocolate chips.",
-      "Drop onto baking sheet and bake for 10-12 minutes."
-    ]
-  },
-  "grilled cheese sandwich": {
-    "ingredients": [
-      {"item": "bread slices", "quantity": 2, "unit": "pcs"},
-      {"item": "cheddar cheese", "quantity": 75, "unit": "g"},
-      {"item": "butter", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Butter one side of each bread slice.",
-      "Place cheese between the unbuttered sides.",
-      "Grill in a pan, flipping until both sides are golden and cheese is melted."
-    ]
-  },
-  "guacamole": {
-    "ingredients": [
-      {"item": "avocado", "quantity": 2, "unit": "pcs"},
-      {"item": "lime juice", "quantity": 1, "unit": "tbsp"},
-      {"item": "red onion", "quantity": 0.25, "unit": "pcs"},
-      {"item": "cilantro", "quantity": 2, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Mash avocados in a bowl.",
-      "Stir in lime juice, chopped onion, and cilantro.",
-      "Season with salt.",
-      "Serve immediately."
-    ]
-  },
-  "chili con carne": {
-    "ingredients": [
-      {"item": "ground beef", "quantity": 500, "unit": "g"},
-      {"item": "onion", "quantity": 1, "unit": "pcs"},
-      {"item": "kidney beans", "quantity": 400, "unit": "g"},
-      {"item": "diced tomatoes", "quantity": 400, "unit": "g"},
-      {"item": "chili powder", "quantity": 2, "unit": "tbsp"},
-      {"item": "cumin", "quantity": 1, "unit": "tsp"},
-      {"item": "beef stock", "quantity": 100, "unit": "ml"},
-      {"item": "vegetable oil", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Brown ground beef and drain fat.",
-      "Sauté onion in oil.",
-      "Add beef, beans, tomatoes, stock, and spices.",
-      "Simmer for 30 minutes, stirring occasionally."
-    ]
-  },
-  "lemon herb roasted chicken": {
-    "ingredients": [
-      {"item": "whole chicken", "quantity": 1.5, "unit": "kg"},
-      {"item": "lemon", "quantity": 1, "unit": "pcs"},
-      {"item": "rosemary", "quantity": 2, "unit": "sprigs"},
-      {"item": "thyme", "quantity": 2, "unit": "sprigs"},
-      {"item": "butter", "quantity": 50, "unit": "g"},
-      {"item": "garlic", "quantity": 4, "unit": "cloves"}
-    ],
-    "instructions": [
-      "Preheat oven to 200°C.",
-      "Rub chicken with butter, herbs, minced garlic, salt, and pepper.",
-      "Stuff cavity with lemon.",
-      "Roast for 1.5 hours or until cooked through."
-    ]
-  },
-  "macaroni and cheese": {
-    "ingredients": [
-      {"item": "macaroni pasta", "quantity": 300, "unit": "g"},
-      {"item": "milk", "quantity": 500, "unit": "ml"},
-      {"item": "cheddar cheese", "quantity": 200, "unit": "g"},
-      {"item": "butter", "quantity": 50, "unit": "g"},
-      {"item": "flour", "quantity": 50, "unit": "g"}
-    ],
-    "instructions": [
-      "Cook macaroni according to package.",
-      "Melt butter, stir in flour to make a roux.",
-      "Gradually whisk in milk until thickened.",
-      "Remove from heat, stir in cheese, salt, and pepper.",
-      "Mix with cooked macaroni."
-    ]
-  },
-  "garlic bread": {
-    "ingredients": [
-      {"item": "french bread loaf", "quantity": 1, "unit": "pcs"},
-      {"item": "butter", "quantity": 100, "unit": "g"},
-      {"item": "garlic", "quantity": 4, "unit": "cloves"},
-      {"item": "parsley", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Preheat oven to 180°C.",
-      "Mix softened butter with minced garlic and parsley.",
-      "Slice bread and spread with garlic butter.",
-      "Bake for 10-15 minutes until golden."
-    ]
-  },
-  "pad thai": {
-    "ingredients": [
-      {"item": "rice noodles", "quantity": 200, "unit": "g"},
-      {"item": "shrimp", "quantity": 200, "unit": "g"},
-      {"item": "egg", "quantity": 1, "unit": "pcs"},
-      {"item": "bean sprouts", "quantity": 100, "unit": "g"},
-      {"item": "tofu", "quantity": 100, "unit": "g"},
-      {"item": "peanut oil", "quantity": 2, "unit": "tbsp"},
-      {"item": "tamarind paste", "quantity": 2, "unit": "tbsp"},
-      {"item": "fish sauce", "quantity": 1, "unit": "tbsp"},
-      {"item": "sugar", "quantity": 1, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Soak noodles.",
-      "Stir fry shrimp and tofu in oil.",
-      "Push to side, scramble egg.",
-      "Add noodles, bean sprouts, and sauce mixture (tamarind, fish sauce, sugar).",
-      "Toss and serve."
-    ]
-  },
-  "vegetable stir fry": {
-    "ingredients": [
-      {"item": "broccoli", "quantity": 1, "unit": "head"},
-      {"item": "carrot", "quantity": 2, "unit": "pcs"},
-      {"item": "bell pepper", "quantity": 1, "unit": "pcs"},
-      {"item": "soy sauce", "quantity": 3, "unit": "tbsp"},
-      {"item": "ginger", "quantity": 1, "unit": "tbsp"},
-      {"item": "garlic", "quantity": 2, "unit": "cloves"},
-      {"item": "sesame oil", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Heat oil in wok.",
-      "Stir fry garlic and ginger briefly.",
-      "Add vegetables and stir fry until tender-crisp.",
-      "Stir in soy sauce and sesame oil."
-    ]
-  },
-  "meatloaf": {
-    "ingredients": [
-      {"item": "ground beef", "quantity": 1, "unit": "kg"},
-      {"item": "bread crumbs", "quantity": 100, "unit": "g"},
-      {"item": "milk", "quantity": 100, "unit": "ml"},
-      {"item": "egg", "quantity": 1, "unit": "pcs"},
-      {"item": "onion", "quantity": 0.5, "unit": "pcs"},
-      {"item": "ketchup", "quantity": 3, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Preheat oven to 175°C.",
-      "Combine all ingredients and mix well.",
-      "Form into a loaf shape in a pan.",
-      "Top with remaining ketchup.",
-      "Bake for 1 hour."
-    ]
-  },
-  "coleslaw": {
-    "ingredients": [
-      {"item": "shredded cabbage", "quantity": 300, "unit": "g"},
-      {"item": "shredded carrot", "quantity": 100, "unit": "g"},
-      {"item": "mayonnaise", "quantity": 100, "unit": "ml"},
-      {"item": "vinegar", "quantity": 1, "unit": "tbsp"},
-      {"item": "sugar", "quantity": 1, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Mix mayonnaise, vinegar, sugar, and salt for the dressing.",
-      "Toss cabbage and carrot with the dressing.",
-      "Chill before serving."
-    ]
-  },
-  "banana bread": {
-    "ingredients": [
-      {"item": "ripe bananas", "quantity": 3, "unit": "pcs"},
-      {"item": "flour", "quantity": 250, "unit": "g"},
-      {"item": "sugar", "quantity": 150, "unit": "g"},
-      {"item": "egg", "quantity": 1, "unit": "pcs"},
-      {"item": "melted butter", "quantity": 50, "unit": "g"},
-      {"item": "baking soda", "quantity": 1, "unit": "tsp"},
-      {"item": "vanilla extract", "quantity": 1, "unit": "tsp"},
-      {"item": "salt", "quantity": 0.5, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Preheat oven to 175°C.",
-      "Mash bananas.",
-      "Mix in egg, butter, and vanilla.",
-      "Stir in flour, sugar, baking soda, and salt.",
-      "Pour into a loaf pan and bake for 50-60 minutes."
-    ]
-  },
-  "chicken noodle soup": {
-    "ingredients": [
-      {"item": "chicken broth", "quantity": 1, "unit": "L"},
-      {"item": "cooked chicken", "quantity": 200, "unit": "g"},
-      {"item": "egg noodles", "quantity": 100, "unit": "g"},
-      {"item": "carrot", "quantity": 1, "unit": "pcs"},
-      {"item": "celery", "quantity": 1, "unit": "stalk"},
-      {"item": "onion", "quantity": 0.5, "unit": "pcs"}
-    ],
-    "instructions": [
-      "Bring broth to a boil.",
-      "Add chopped carrot, celery, and onion; simmer until soft.",
-      "Add noodles and cook according to package.",
-      "Stir in chicken, season, and serve."
-    ]
-  },
-  "hummus": {
-    "ingredients": [
-      {"item": "canned chickpeas", "quantity": 400, "unit": "g"},
-      {"item": "tahini", "quantity": 4, "unit": "tbsp"},
-      {"item": "lemon juice", "quantity": 2, "unit": "tbsp"},
-      {"item": "garlic", "quantity": 1, "unit": "clove"},
-      {"item": "olive oil", "quantity": 2, "unit": "tbsp"},
-      {"item": "water", "quantity": 2, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Drain and rinse chickpeas.",
-      "Blend chickpeas, tahini, lemon juice, garlic, olive oil, water, and salt until smooth.",
-      "Add more water if needed for consistency."
-    ]
-  },
-  "pizza dough": {
-    "ingredients": [
-      {"item": "all-purpose flour", "quantity": 300, "unit": "g"},
-      {"item": "water", "quantity": 200, "unit": "ml"},
-      {"item": "active dry yeast", "quantity": 7, "unit": "g"},
-      {"item": "olive oil", "quantity": 1, "unit": "tbsp"},
-      {"item": "salt", "quantity": 1, "unit": "tsp"},
-      {"item": "sugar", "quantity": 1, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Dissolve yeast and sugar in warm water; let sit for 5 minutes.",
-      "Mix flour and salt in a large bowl.",
-      "Add yeast mixture and olive oil to flour.",
-      "Knead for 5-10 minutes.",
-      "Let rise until doubled (about 1 hour)."
-    ]
-  },
-  "brownies": {
-    "ingredients": [
-      {"item": "unsalted butter", "quantity": 150, "unit": "g"},
-      {"item": "granulated sugar", "quantity": 200, "unit": "g"},
-      {"item": "cocoa powder", "quantity": 50, "unit": "g"},
-      {"item": "all-purpose flour", "quantity": 100, "unit": "g"},
-      {"item": "egg", "quantity": 2, "unit": "pcs"},
-      {"item": "vanilla extract", "quantity": 1, "unit": "tsp"},
-      {"item": "salt", "quantity": 0.5, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Preheat oven to 175°C.",
-      "Melt butter and whisk in sugar, then cocoa powder.",
-      "Stir in eggs and vanilla.",
-      "Fold in flour and salt.",
-      "Bake in a lined 8x8 inch pan for 20-25 minutes."
-    ]
-  },
-  "chicken fajitas": {
-    "ingredients": [
-      {"item": "chicken breast", "quantity": 500, "unit": "g"},
-      {"item": "bell peppers", "quantity": 2, "unit": "pcs"},
-      {"item": "onion", "quantity": 1, "unit": "pcs"},
-      {"item": "fajita seasoning", "quantity": 2, "unit": "tbsp"},
-      {"item": "vegetable oil", "quantity": 2, "unit": "tbsp"},
-      {"item": "flour tortillas", "quantity": 8, "unit": "pcs"}
-    ],
-    "instructions": [
-      "Slice chicken and vegetables into strips.",
-      "Toss chicken and vegetables with seasoning and oil.",
-      "Sauté in a hot pan until cooked.",
-      "Serve in warm tortillas."
-    ]
-  },
-  "sushi rice": {
-    "ingredients": [
-      {"item": "sushi rice", "quantity": 200, "unit": "g"},
-      {"item": "water", "quantity": 250, "unit": "ml"},
-      {"item": "rice vinegar", "quantity": 2, "unit": "tbsp"},
-      {"item": "sugar", "quantity": 1, "unit": "tbsp"},
-      {"item": "salt", "quantity": 0.5, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Rinse rice until water runs clear.",
-      "Cook rice with water.",
-      "Mix vinegar, sugar, and salt until dissolved.",
-      "Fold vinegar mixture into the cooked rice."
-    ]
-  },
-  "minestrone soup": {
-    "ingredients": [
-      {"item": "vegetable broth", "quantity": 1.5, "unit": "L"},
-      {"item": "diced tomatoes", "quantity": 400, "unit": "g"},
-      {"item": "canned cannellini beans", "quantity": 400, "unit": "g"},
-      {"item": "pasta (small)", "quantity": 50, "unit": "g"},
-      {"item": "carrot", "quantity": 1, "unit": "pcs"},
-      {"item": "celery", "quantity": 1, "unit": "stalk"},
-      {"item": "zucchini", "quantity": 1, "unit": "pcs"},
-      {"item": "onion", "quantity": 0.5, "unit": "pcs"}
-    ],
-    "instructions": [
-      "Sauté onion, carrot, and celery.",
-      "Add broth, tomatoes, and zucchini; simmer.",
-      "Add beans and pasta; cook until pasta is done."
-    ]
-  },
-  "pesto pasta": {
-    "ingredients": [
-      {"item": "pasta (penne/fusilli)", "quantity": 400, "unit": "g"},
-      {"item": "pesto sauce", "quantity": 150, "unit": "g"},
-      {"item": "parmesan cheese", "quantity": 50, "unit": "g"},
-      {"item": "pine nuts", "quantity": 20, "unit": "g"},
-      {"item": "olive oil", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Cook pasta until al dente.",
-      "Drain pasta, reserving some water.",
-      "Toss with pesto, parmesan, and a splash of reserved water.",
-      "Garnish with pine nuts."
-    ]
-  },
-  "shepherd's pie": {
-    "ingredients": [
-      {"item": "ground lamb", "quantity": 500, "unit": "g"},
-      {"item": "mashed potatoes", "quantity": 500, "unit": "g"},
-      {"item": "onion", "quantity": 1, "unit": "pcs"},
-      {"item": "carrot", "quantity": 1, "unit": "pcs"},
-      {"item": "peas", "quantity": 100, "unit": "g"},
-      {"item": "beef stock", "quantity": 200, "unit": "ml"},
-      {"item": "worcestershire sauce", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Brown lamb, drain fat.",
-      "Sauté onion and carrot.",
-      "Add lamb, stock, Worcestershire sauce, and peas; simmer.",
-      "Top with mashed potatoes and bake at 200°C for 20 minutes."
-    ]
-  },
-  "simple vinaigrette": {
-    "ingredients": [
-      {"item": "olive oil", "quantity": 3, "unit": "tbsp"},
-      {"item": "red wine vinegar", "quantity": 1, "unit": "tbsp"},
-      {"item": "dijon mustard", "quantity": 1, "unit": "tsp"}
-    ],
-    "instructions": [
-      "immediately or store in the refrigerator."
-    ]
-  },
-  "baked salmon with lemon and dill": {
-    "ingredients": [
-      {"item": "salmon fillet", "quantity": 400, "unit": "g"},
-      {"item": "lemon slices", "quantity": 4, "unit": "pcs"},
-      {"item": "fresh dill", "quantity": 1, "unit": "tbsp"},
-      {"item": "olive oil", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Preheat oven to 200°C.",
-      "Place salmon on baking sheet.",
-      "Drizzle with oil, top with lemon, dill, salt, and pepper.",
-      "Bake for 12-15 minutes."
-    ]
-  },
-  "caprese salad": {
-    "ingredients": [
-      {"item": "mozzarella balls", "quantity": 200, "unit": "g"},
-      {"item": "tomatoes", "quantity": 2, "unit": "pcs"},
-      {"item": "fresh basil", "quantity": 10, "unit": "leaves"},
-      {"item": "balsamic glaze", "quantity": 1, "unit": "tbsp"},
-      {"item": "olive oil", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Slice mozzarella and tomatoes.",
-      "Arrange alternating slices with basil leaves.",
-      "Drizzle with olive oil and balsamic glaze.",
-      "Season lightly with salt and pepper."
-    ]
-  },
-  "french toast": {
-    "ingredients": [
-      {"item": "bread slices (thick)", "quantity": 4, "unit": "pcs"},
-      {"item": "egg", "quantity": 2, "unit": "pcs"},
-      {"item": "milk", "quantity": 100, "unit": "ml"},
-      {"item": "cinnamon", "quantity": 0.5, "unit": "tsp"},
-      {"item": "vanilla extract", "quantity": 0.5, "unit": "tsp"},
-      {"item": "butter", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Whisk egg, milk, cinnamon, and vanilla.",
-      "Dip bread slices in mixture.",
-      "Melt butter in a pan.",
-      "Cook bread until golden brown on both sides."
-    ]
-  },
-  "black bean burgers": {
-    "ingredients": [
-      {"item": "canned black beans", "quantity": 400, "unit": "g"},
-      {"item": "bread crumbs", "quantity": 50, "unit": "g"},
-      {"item": "onion", "quantity": 0.25, "unit": "pcs"},
-      {"item": "cumin", "quantity": 1, "unit": "tsp"},
-      {"item": "chili powder", "quantity": 1, "unit": "tsp"},
-      {"item": "egg", "quantity": 1, "unit": "pcs"}
-    ],
-    "instructions": [
-      "Mash black beans.",
-      "Mix with bread crumbs, finely chopped onion, spices, and egg.",
-      "Form into patties.",
-      "Cook in a lightly oiled pan until heated through and browned."
-    ]
-  },
-  "quesadillas": {
-    "ingredients": [
-      {"item": "flour tortillas", "quantity": 2, "unit": "pcs"},
-      {"item": "cheddar cheese (shredded)", "quantity": 100, "unit": "g"},
-      {"item": "cooked chicken (optional)", "quantity": 50, "unit": "g"},
-      {"item": "butter", "quantity": 0.5, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Butter one side of a tortilla.",
-      "Place tortilla butter-side down in a pan.",
-      "Sprinkle half the cheese, add chicken, top with remaining cheese.",
-      "Cover with the second tortilla, cook until golden, flip, and cook the other side."
-    ]
-  },
-  "homemade lemonade": {
-    "ingredients": [
-      {"item": "fresh lemon juice", "quantity": 200, "unit": "ml"},
-      {"item": "sugar", "quantity": 150, "unit": "g"},
-      {"item": "water", "quantity": 1, "unit": "L"}
-    ],
-    "instructions": [
-      "Heat a small amount of water with sugar until dissolved (simple syrup).",
-      "Mix simple syrup with lemon juice and remaining water.",
-      "Chill and serve over ice."
-    ]
-  },
-  "pork chops with apples": {
-    "ingredients": [
-      {"item": "pork chops", "quantity": 4, "unit": "pcs"},
-      {"item": "apple", "quantity": 2, "unit": "pcs"},
-      {"item": "butter", "quantity": 2, "unit": "tbsp"},
-      {"item": "cinnamon", "quantity": 0.5, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Season pork chops with salt and pepper.",
-      "Sear chops in butter until browned; remove.",
-      "Sauté sliced apples in the same pan with cinnamon.",
-      "Return chops to pan and simmer until cooked through."
-    ]
-  },
-  "greek salad": {
-    "ingredients": [
-      {"item": "cucumber", "quantity": 1, "unit": "pcs"},
-      {"item": "tomato", "quantity": 2, "unit": "pcs"},
-      {"item": "red onion", "quantity": 0.5, "unit": "pcs"},
-      {"item": "feta cheese", "quantity": 100, "unit": "g"},
-      {"item": "kalamata olives", "quantity": 50, "unit": "g"},
-      {"item": "olive oil", "quantity": 3, "unit": "tbsp"},
-      {"item": "red wine vinegar", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Chop cucumber, tomato, and red onion.",
-      "Combine vegetables, feta, and olives.",
-      "Whisk oil and vinegar for dressing.",
-      "Toss salad with dressing."
-    ]
-  },
-  "chicken pot pie": {
-    "ingredients": [
-      {"item": "cooked chicken", "quantity": 300, "unit": "g"},
-      {"item": "mixed vegetables (frozen)", "quantity": 200, "unit": "g"},
-      {"item": "cream of chicken soup", "quantity": 400, "unit": "g"},
-      {"item": "milk", "quantity": 100, "unit": "ml"},
-      {"item": "pie crust (refrigerated)", "quantity": 1, "unit": "pcs"}
-    ],
-    "instructions": [
-      "Preheat oven to 200°C.",
-      "Mix chicken, vegetables, soup, and milk.",
-      "Pour into pie dish.",
-      "Top with pie crust, slit top.",
-      "Bake for 30 minutes until crust is golden."
-    ]
-  },
-  "tacos (ground beef)": {
-    "ingredients": [
-      {"item": "ground beef", "quantity": 500, "unit": "g"},
-      {"item": "taco seasoning", "quantity": 1, "unit": "packet"},
-      {"item": "water", "quantity": 100, "unit": "ml"},
-      {"item": "taco shells", "quantity": 12, "unit": "pcs"},
-      {"item": "lettuce", "quantity": 1, "unit": "cup"},
-      {"item": "cheddar cheese (shredded)", "quantity": 100, "unit": "g"}
-    ],
-    "instructions": [
-      "Brown ground beef; drain fat.",
-      "Stir in taco seasoning and water; simmer until thickened.",
-      "Fill taco shells with meat, lettuce, and cheese."
-    ]
-  },
-  "roasted asparagus": {
-    "ingredients": [
-      {"item": "asparagus spears", "quantity": 500, "unit": "g"},
-      {"item": "olive oil", "quantity": 1, "unit": "tbsp"},
-      {"item": "garlic powder", "quantity": 0.5, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Preheat oven to 200°C.",
-      "Toss asparagus with olive oil, garlic powder, salt, and pepper.",
-      "Spread on a baking sheet.",
-      "Roast for 10-15 minutes until tender-crisp."
-    ]
-  },
-  "salsa (fresh)": {
-    "ingredients": [
-      {"item": "diced tomato", "quantity": 3, "unit": "pcs"},
-      {"item": "jalapeño", "quantity": 0.5, "unit": "pcs"},
-      {"item": "red onion", "quantity": 0.25, "unit": "pcs"},
-      {"item": "cilantro", "quantity": 2, "unit": "tbsp"},
-      {"item": "lime juice", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Finely dice all vegetables.",
-      "Mix all ingredients in a bowl.",
-      "Let sit for 15 minutes for flavors to meld."
-    ]
-  },
-  "scrambled eggs (basic)": {
-    "ingredients": [
-      {"item": "egg", "quantity": 3, "unit": "pcs"},
-      {"item": "milk or cream", "quantity": 1, "unit": "tbsp"},
-      {"item": "butter", "quantity": 0.5, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Whisk eggs, milk, salt, and pepper.",
-      "Melt butter in a non-stick pan over medium-low heat.",
-      "Pour in egg mixture.",
-      "Stir gently until cooked to desired consistency."
-    ]
-  },
-  "simple mashed potatoes": {
-    "ingredients": [
-      {"item": "potatoes (russet or yukon gold)", "quantity": 1, "unit": "kg"},
-      {"item": "milk", "quantity": 100, "unit": "ml"},
-      {"item": "butter", "quantity": 50, "unit": "g"}
-    ],
-    "instructions": [
-      "Peel and boil potatoes until tender.",
-      "Drain well and mash.",
-      "Mix in butter, milk, salt, and pepper until smooth and creamy."
-    ]
-  },
-  "chicken stir-fry with cashew nuts": {
-    "ingredients": [
-      {"item": "chicken breast", "quantity": 400, "unit": "g"},
-      {"item": "cashew nuts", "quantity": 50, "unit": "g"},
-      {"item": "bell peppers", "quantity": 1, "unit": "pcs"},
-      {"item": "soy sauce", "quantity": 3, "unit": "tbsp"},
-      {"item": "honey", "quantity": 1, "unit": "tbsp"},
-      {"item": "ginger", "quantity": 1, "unit": "tsp"},
-      {"item": "vegetable oil", "quantity": 2, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Slice chicken and stir-fry in oil until cooked.",
-      "Add sliced peppers and stir-fry briefly.",
-      "Mix soy sauce, honey, and ginger.",
-      "Pour sauce over chicken and vegetables.",
-      "Stir in cashew nuts and serve."
-    ]
-  },
-  "potato salad (mayo-based)": {
-    "ingredients": [
-      {"item": "potato", "quantity": 800, "unit": "g"},
-      {"item": "mayonnaise", "quantity": 150, "unit": "ml"},
-      {"item": "celery", "quantity": 1, "unit": "stalk"},
-      {"item": "red onion", "quantity": 0.25, "unit": "pcs"},
-      {"item": "mustard", "quantity": 1, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Boil potatoes until tender, then dice.",
-      "In a large bowl, mix mayo, mustard, chopped celery, and onion.",
-      "Fold in the diced potatoes.",
-      "Season with salt and pepper, chill before serving."
-    ]
-  },
-  "pico de gallo": {
-    "ingredients": [
-      {"item": "roma tomatoes (diced)", "quantity": 3, "unit": "pcs"},
-      {"item": "white onion (diced)", "quantity": 0.25, "unit": "pcs"},
-      {"item": "jalapeño (finely chopped)", "quantity": 0.5, "unit": "pcs"},
-      {"item": "cilantro (chopped)", "quantity": 2, "unit": "tbsp"},
-      {"item": "lime juice", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Combine all diced ingredients in a bowl.",
-      "Stir in lime juice and salt.",
-      "Mix well and let sit for 10 minutes."
-    ]
-  },
-  "gazpacho (cold soup)": {
-    "ingredients": [
-      {"item": "ripe tomatoes", "quantity": 1, "unit": "kg"},
-      {"item": "cucumber", "quantity": 0.5, "unit": "pcs"},
-      {"item": "green bell pepper", "quantity": 0.5, "unit": "pcs"},
-      {"item": "onion", "quantity": 0.25, "unit": "pcs"},
-      {"item": "olive oil", "quantity": 3, "unit": "tbsp"},
-      {"item": "red wine vinegar", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Chop all vegetables roughly.",
-      "Blend vegetables with olive oil, vinegar, and salt until smooth.",
-      "Chill for at least 2 hours before serving."
-    ]
-  },
-  "baked sweet potato fries": {
-    "ingredients": [
-      {"item": "sweet potatoes", "quantity": 2, "unit": "pcs"},
-      {"item": "olive oil", "quantity": 1, "unit": "tbsp"},
-      {"item": "smoked paprika", "quantity": 0.5, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Preheat oven to 220°C.",
-      "Cut sweet potatoes into fries.",
-      "Toss with olive oil, paprika, and salt.",
-      "Bake for 20-25 minutes, flipping halfway, until crispy."
-    ]
-  },
-  "chicken tikka masala": {
-    "ingredients": [
-      {"item": "chicken breast (cubed)", "quantity": 500, "unit": "g"},
-      {"item": "yogurt", "quantity": 100, "unit": "ml"},
-      {"item": "tikka masala paste", "quantity": 3, "unit": "tbsp"},
-      {"item": "onion", "quantity": 1, "unit": "pcs"},
-      {"item": "crushed tomatoes", "quantity": 400, "unit": "g"},
-      {"item": "heavy cream", "quantity": 100, "unit": "ml"},
-      {"item": "vegetable oil", "quantity": 2, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Marinate chicken in yogurt and 1 tbsp of paste for 30 min.",
-      "Sauté onion in oil.",
-      "Add remaining paste, tomatoes, and marinated chicken; simmer.",
-      "Stir in heavy cream and serve."
-    ]
-  },
-  "smoothie (berry banana)": {
-    "ingredients": [
-      {"item": "frozen berries", "quantity": 100, "unit": "g"},
-      {"item": "banana", "quantity": 1, "unit": "pcs"},
-      {"item": "milk (dairy or non-dairy)", "quantity": 200, "unit": "ml"},
-      {"item": "honey (optional)", "quantity": 1, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Combine all ingredients in a blender.",
-      "Blend until smooth and creamy.",
-      "Add more milk if needed to reach desired consistency."
-    ]
-  },
-  "creamy mushroom soup": {
-    "ingredients": [
-      {"item": "mushrooms (sliced)", "quantity": 300, "unit": "g"},
-      {"item": "butter", "quantity": 2, "unit": "tbsp"},
-      {"item": "onion (chopped)", "quantity": 0.5, "unit": "pcs"},
-      {"item": "vegetable stock", "quantity": 500, "unit": "ml"},
-      {"item": "heavy cream", "quantity": 50, "unit": "ml"},
-      {"item": "flour", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Melt butter, sauté onion and mushrooms until soft.",
-      "Stir in flour.",
-      "Gradually add stock and simmer until slightly thickened.",
-      "Stir in cream, season, and serve (or blend for smooth consistency)."
-    ]
-  },
-  "classic chili": {
-    "ingredients": [
-      {"item": "ground beef", "quantity": 500, "unit": "g"},
-      {"item": "kidney beans (canned)", "quantity": 400, "unit": "g"},
-      {"item": "diced tomatoes (canned)", "quantity": 400, "unit": "g"},
-      {"item": "chili powder", "quantity": 2, "unit": "tbsp"},
-      {"item": "onion (chopped)", "quantity": 1, "unit": "pcs"},
-      {"item": "beef broth", "quantity": 200, "unit": "ml"},
-      {"item": "vegetable oil", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Brown ground beef and drain fat.",
-      "Sauté onion in oil.",
-      "Add beef, beans, tomatoes, broth, and chili powder.",
-      "Simmer for at least 30 minutes, season with salt."
-    ]
-  },
-  "ratatouille": {
-    "ingredients": [
-      {"item": "aubergine (eggplant)", "quantity": 1, "unit": "pcs"},
-      {"item": "courgette (zucchini)", "quantity": 1, "unit": "pcs"},
-      {"item": "bell pepper (red)", "quantity": 1, "unit": "pcs"},
-      {"item": "tomato (diced)", "quantity": 3, "unit": "pcs"},
-      {"item": "onion", "quantity": 1, "unit": "pcs"},
-      {"item": "garlic", "quantity": 3, "unit": "cloves"},
-      {"item": "olive oil", "quantity": 3, "unit": "tbsp"},
-      {"item": "herbs de provence", "quantity": 1, "unit": "tsp"}
-    ],
-    "instructions": [
-      "Chop all vegetables into similar sized pieces.",
-      "Sauté onion and garlic in olive oil.",
-      "Add other vegetables and herbs.",
-      "Cover and simmer for 30-40 minutes until vegetables are tender."
-    ]
-  },
-  "tiramisu (simple)": {
-    "ingredients": [
-      {"item": "savoiardi (ladyfingers)", "quantity": 24, "unit": "pcs"},
-      {"item": "mascarpone cheese", "quantity": 250, "unit": "g"},
-      {"item": "egg yolks", "quantity": 2, "unit": "pcs"},
-      {"item": "sugar", "quantity": 50, "unit": "g"},
-      {"item": "strong coffee (cooled)", "quantity": 200, "unit": "ml"},
-      {"item": "cocoa powder", "quantity": 0, "unit": "for dusting"}
-    ],
-    "instructions": [
-      "Whisk egg yolks and sugar until pale and thick.",
-      "Fold in mascarpone.",
-      "Dip ladyfingers quickly in coffee.",
-      "Layer ladyfingers and mascarpone mixture in a dish.",
-      "Chill for several hours, dust with cocoa before serving."
-    ]
-  },
-  "honey-garlic shrimp": {
-    "ingredients": [
-      {"item": "shrimp (peeled & deveined)", "quantity": 500, "unit": "g"},
-      {"item": "honey", "quantity": 2, "unit": "tbsp"},
-      {"item": "soy sauce", "quantity": 2, "unit": "tbsp"},
-      {"item": "garlic (minced)", "quantity": 3, "unit": "cloves"},
-      {"item": "butter", "quantity": 1, "unit": "tbsp"}
-    ],
-    "instructions": [
-      "Mix honey, soy sauce, and garlic for the sauce.",
-      "Melt butter in a pan.",
-      "Cook shrimp until pink.",
-      "Pour sauce over shrimp and cook until sauce is thickened."
-    ]
-  }
+    "chicken curry": {
+        "ingredients": [
+            {
+                "item": "chicken",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "onion",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "garlic",
+                "quantity": 3,
+                "unit": "cloves"
+            },
+            {
+                "item": "ginger",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "tomato",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "curry powder",
+                "quantity": 2,
+                "unit": "tsp"
+            },
+            {
+                "item": "turmeric",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "cumin",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "coconut milk",
+                "quantity": 200,
+                "unit": "ml"
+            },
+            {
+                "item": "vegetable oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Heat oil in a pan.",
+            "Saut\u00e9 onion, garlic, ginger until soft.",
+            "Add chicken and brown.",
+            "Add spices and tomatoes.",
+            "Pour coconut milk and simmer until cooked.",
+            "Season with salt and pepper."
+        ]
+    },
+    "beef stew": {
+        "ingredients": [
+            {
+                "item": "beef chunks",
+                "quantity": 600,
+                "unit": "g"
+            },
+            {
+                "item": "potato",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "carrot",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "celery",
+                "quantity": 2,
+                "unit": "stalks"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "beef stock",
+                "quantity": 500,
+                "unit": "ml"
+            },
+            {
+                "item": "tomato paste",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "flour",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Coat beef in flour then brown in pot.",
+            "Add onion, carrot, celery and cook briefly.",
+            "Stir in tomato paste.",
+            "Add stock and simmer until beef is tender.",
+            "Add potatoes and cook until soft.",
+            "Season and serve."
+        ]
+    },
+    "fried rice": {
+        "ingredients": [
+            {
+                "item": "cooked rice",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "egg",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "carrot",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "peas",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "soy sauce",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "sesame oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "spring onion",
+                "quantity": 2,
+                "unit": "stalks"
+            }
+        ],
+        "instructions": [
+            "Scramble eggs and set aside.",
+            "Stir fry vegetables briefly.",
+            "Add rice and mix well.",
+            "Stir in soy sauce and sesame oil.",
+            "Add eggs and spring onions.",
+            "Cook until heated through."
+        ]
+    },
+    "spaghetti bolognese": {
+        "ingredients": [
+            {
+                "item": "spaghetti",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "ground beef",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "garlic",
+                "quantity": 2,
+                "unit": "cloves"
+            },
+            {
+                "item": "tomato sauce",
+                "quantity": 400,
+                "unit": "ml"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Cook spaghetti according to package.",
+            "Saut\u00e9 onion and garlic in oil.",
+            "Add ground beef and brown.",
+            "Stir in tomato sauce and simmer.",
+            "Season and serve over pasta."
+        ]
+    },
+    "pancakes": {
+        "ingredients": [
+            {
+                "item": "flour",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "milk",
+                "quantity": 300,
+                "unit": "ml"
+            },
+            {
+                "item": "egg",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "butter",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "sugar",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "salt",
+                "quantity": 0.5,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Mix flour, sugar, and salt.",
+            "Whisk in milk and eggs.",
+            "Heat butter in pan.",
+            "Pour batter and cook until golden.",
+            "Flip and cook other side."
+        ]
+    },
+    "omelette": {
+        "ingredients": [
+            {
+                "item": "egg",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "milk",
+                "quantity": 30,
+                "unit": "ml"
+            },
+            {
+                "item": "cheddar cheese",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "butter",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Beat eggs with milk, salt and pepper.",
+            "Heat butter in a pan.",
+            "Pour egg mixture.",
+            "Add cheese.",
+            "Fold when set."
+        ]
+    },
+    "caesar salad": {
+        "ingredients": [
+            {
+                "item": "romaine lettuce",
+                "quantity": 1,
+                "unit": "head"
+            },
+            {
+                "item": "croutons",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "parmesan",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "lemon juice",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 3,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Chop lettuce.",
+            "Mix dressing (lemon + oil + salt + pepper).",
+            "Toss lettuce with dressing.",
+            "Add croutons and parmesan."
+        ]
+    },
+    "tomato soup": {
+        "ingredients": [
+            {
+                "item": "tomato",
+                "quantity": 800,
+                "unit": "g"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "vegetable stock",
+                "quantity": 500,
+                "unit": "ml"
+            },
+            {
+                "item": "basil",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Saut\u00e9 onion in oil.",
+            "Add tomatoes and stock, simmer.",
+            "Blend until smooth.",
+            "Stir in basil, season and serve."
+        ]
+    },
+    "tuna melt sandwich": {
+        "ingredients": [
+            {
+                "item": "canned tuna",
+                "quantity": 150,
+                "unit": "g"
+            },
+            {
+                "item": "mayonnaise",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "celery",
+                "quantity": 1,
+                "unit": "stalk"
+            },
+            {
+                "item": "cheddar cheese",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "bread slices",
+                "quantity": 2,
+                "unit": "pcs"
+            }
+        ],
+        "instructions": [
+            "Mix tuna, mayo, and chopped celery.",
+            "Spread tuna mixture on one slice of bread.",
+            "Top with cheese and the other slice.",
+            "Grill or toast until bread is golden and cheese is melted."
+        ]
+    },
+    "chocolate chip cookies": {
+        "ingredients": [
+            {
+                "item": "all-purpose flour",
+                "quantity": 250,
+                "unit": "g"
+            },
+            {
+                "item": "butter",
+                "quantity": 150,
+                "unit": "g"
+            },
+            {
+                "item": "brown sugar",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "granulated sugar",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "egg",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "vanilla extract",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "baking soda",
+                "quantity": 0.5,
+                "unit": "tsp"
+            },
+            {
+                "item": "salt",
+                "quantity": 0.5,
+                "unit": "tsp"
+            },
+            {
+                "item": "chocolate chips",
+                "quantity": 200,
+                "unit": "g"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 180\u00b0C.",
+            "Cream butter and sugars.",
+            "Beat in egg and vanilla.",
+            "Mix in flour, baking soda, and salt.",
+            "Fold in chocolate chips.",
+            "Drop onto baking sheet and bake for 10-12 minutes."
+        ]
+    },
+    "grilled cheese sandwich": {
+        "ingredients": [
+            {
+                "item": "bread slices",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "cheddar cheese",
+                "quantity": 75,
+                "unit": "g"
+            },
+            {
+                "item": "butter",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Butter one side of each bread slice.",
+            "Place cheese between the unbuttered sides.",
+            "Grill in a pan, flipping until both sides are golden and cheese is melted."
+        ]
+    },
+    "guacamole": {
+        "ingredients": [
+            {
+                "item": "avocado",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "lime juice",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "red onion",
+                "quantity": 0.25,
+                "unit": "pcs"
+            },
+            {
+                "item": "cilantro",
+                "quantity": 2,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Mash avocados in a bowl.",
+            "Stir in lime juice, chopped onion, and cilantro.",
+            "Season with salt.",
+            "Serve immediately."
+        ]
+    },
+    "chili con carne": {
+        "ingredients": [
+            {
+                "item": "ground beef",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "kidney beans",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "diced tomatoes",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "chili powder",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "cumin",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "beef stock",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "vegetable oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Brown ground beef and drain fat.",
+            "Saut\u00e9 onion in oil.",
+            "Add beef, beans, tomatoes, stock, and spices.",
+            "Simmer for 30 minutes, stirring occasionally."
+        ]
+    },
+    "lemon herb roasted chicken": {
+        "ingredients": [
+            {
+                "item": "whole chicken",
+                "quantity": 1.5,
+                "unit": "kg"
+            },
+            {
+                "item": "lemon",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "rosemary",
+                "quantity": 2,
+                "unit": "sprigs"
+            },
+            {
+                "item": "thyme",
+                "quantity": 2,
+                "unit": "sprigs"
+            },
+            {
+                "item": "butter",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "garlic",
+                "quantity": 4,
+                "unit": "cloves"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 200\u00b0C.",
+            "Rub chicken with butter, herbs, minced garlic, salt, and pepper.",
+            "Stuff cavity with lemon.",
+            "Roast for 1.5 hours or until cooked through."
+        ]
+    },
+    "macaroni and cheese": {
+        "ingredients": [
+            {
+                "item": "macaroni pasta",
+                "quantity": 300,
+                "unit": "g"
+            },
+            {
+                "item": "milk",
+                "quantity": 500,
+                "unit": "ml"
+            },
+            {
+                "item": "cheddar cheese",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "butter",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "flour",
+                "quantity": 50,
+                "unit": "g"
+            }
+        ],
+        "instructions": [
+            "Cook macaroni according to package.",
+            "Melt butter, stir in flour to make a roux.",
+            "Gradually whisk in milk until thickened.",
+            "Remove from heat, stir in cheese, salt, and pepper.",
+            "Mix with cooked macaroni."
+        ]
+    },
+    "garlic bread": {
+        "ingredients": [
+            {
+                "item": "french bread loaf",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "butter",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "garlic",
+                "quantity": 4,
+                "unit": "cloves"
+            },
+            {
+                "item": "parsley",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 180\u00b0C.",
+            "Mix softened butter with minced garlic and parsley.",
+            "Slice bread and spread with garlic butter.",
+            "Bake for 10-15 minutes until golden."
+        ]
+    },
+    "pad thai": {
+        "ingredients": [
+            {
+                "item": "rice noodles",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "shrimp",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "egg",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "bean sprouts",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "tofu",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "peanut oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "tamarind paste",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "fish sauce",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "sugar",
+                "quantity": 1,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Soak noodles.",
+            "Stir fry shrimp and tofu in oil.",
+            "Push to side, scramble egg.",
+            "Add noodles, bean sprouts, and sauce mixture (tamarind, fish sauce, sugar).",
+            "Toss and serve."
+        ]
+    },
+    "vegetable stir fry": {
+        "ingredients": [
+            {
+                "item": "broccoli",
+                "quantity": 1,
+                "unit": "head"
+            },
+            {
+                "item": "carrot",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "bell pepper",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "soy sauce",
+                "quantity": 3,
+                "unit": "tbsp"
+            },
+            {
+                "item": "ginger",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "garlic",
+                "quantity": 2,
+                "unit": "cloves"
+            },
+            {
+                "item": "sesame oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Heat oil in wok.",
+            "Stir fry garlic and ginger briefly.",
+            "Add vegetables and stir fry until tender-crisp.",
+            "Stir in soy sauce and sesame oil."
+        ]
+    },
+    "meatloaf": {
+        "ingredients": [
+            {
+                "item": "ground beef",
+                "quantity": 1,
+                "unit": "kg"
+            },
+            {
+                "item": "bread crumbs",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "milk",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "egg",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "onion",
+                "quantity": 0.5,
+                "unit": "pcs"
+            },
+            {
+                "item": "ketchup",
+                "quantity": 3,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 175\u00b0C.",
+            "Combine all ingredients and mix well.",
+            "Form into a loaf shape in a pan.",
+            "Top with remaining ketchup.",
+            "Bake for 1 hour."
+        ]
+    },
+    "coleslaw": {
+        "ingredients": [
+            {
+                "item": "shredded cabbage",
+                "quantity": 300,
+                "unit": "g"
+            },
+            {
+                "item": "shredded carrot",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "mayonnaise",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "vinegar",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "sugar",
+                "quantity": 1,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Mix mayonnaise, vinegar, sugar, and salt for the dressing.",
+            "Toss cabbage and carrot with the dressing.",
+            "Chill before serving."
+        ]
+    },
+    "banana bread": {
+        "ingredients": [
+            {
+                "item": "ripe bananas",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "flour",
+                "quantity": 250,
+                "unit": "g"
+            },
+            {
+                "item": "sugar",
+                "quantity": 150,
+                "unit": "g"
+            },
+            {
+                "item": "egg",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "melted butter",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "baking soda",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "vanilla extract",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "salt",
+                "quantity": 0.5,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 175\u00b0C.",
+            "Mash bananas.",
+            "Mix in egg, butter, and vanilla.",
+            "Stir in flour, sugar, baking soda, and salt.",
+            "Pour into a loaf pan and bake for 50-60 minutes."
+        ]
+    },
+    "chicken noodle soup": {
+        "ingredients": [
+            {
+                "item": "chicken broth",
+                "quantity": 1,
+                "unit": "L"
+            },
+            {
+                "item": "cooked chicken",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "egg noodles",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "carrot",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "celery",
+                "quantity": 1,
+                "unit": "stalk"
+            },
+            {
+                "item": "onion",
+                "quantity": 0.5,
+                "unit": "pcs"
+            }
+        ],
+        "instructions": [
+            "Bring broth to a boil.",
+            "Add chopped carrot, celery, and onion; simmer until soft.",
+            "Add noodles and cook according to package.",
+            "Stir in chicken, season, and serve."
+        ]
+    },
+    "hummus": {
+        "ingredients": [
+            {
+                "item": "canned chickpeas",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "tahini",
+                "quantity": 4,
+                "unit": "tbsp"
+            },
+            {
+                "item": "lemon juice",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "garlic",
+                "quantity": 1,
+                "unit": "clove"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "water",
+                "quantity": 2,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Drain and rinse chickpeas.",
+            "Blend chickpeas, tahini, lemon juice, garlic, olive oil, water, and salt until smooth.",
+            "Add more water if needed for consistency."
+        ]
+    },
+    "pizza dough": {
+        "ingredients": [
+            {
+                "item": "all-purpose flour",
+                "quantity": 300,
+                "unit": "g"
+            },
+            {
+                "item": "water",
+                "quantity": 200,
+                "unit": "ml"
+            },
+            {
+                "item": "active dry yeast",
+                "quantity": 7,
+                "unit": "g"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "salt",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "sugar",
+                "quantity": 1,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Dissolve yeast and sugar in warm water; let sit for 5 minutes.",
+            "Mix flour and salt in a large bowl.",
+            "Add yeast mixture and olive oil to flour.",
+            "Knead for 5-10 minutes.",
+            "Let rise until doubled (about 1 hour)."
+        ]
+    },
+    "brownies": {
+        "ingredients": [
+            {
+                "item": "unsalted butter",
+                "quantity": 150,
+                "unit": "g"
+            },
+            {
+                "item": "granulated sugar",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "cocoa powder",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "all-purpose flour",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "egg",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "vanilla extract",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "salt",
+                "quantity": 0.5,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 175\u00b0C.",
+            "Melt butter and whisk in sugar, then cocoa powder.",
+            "Stir in eggs and vanilla.",
+            "Fold in flour and salt.",
+            "Bake in a lined 8x8 inch pan for 20-25 minutes."
+        ]
+    },
+    "chicken fajitas": {
+        "ingredients": [
+            {
+                "item": "chicken breast",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "bell peppers",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "fajita seasoning",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "vegetable oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "flour tortillas",
+                "quantity": 8,
+                "unit": "pcs"
+            }
+        ],
+        "instructions": [
+            "Slice chicken and vegetables into strips.",
+            "Toss chicken and vegetables with seasoning and oil.",
+            "Saut\u00e9 in a hot pan until cooked.",
+            "Serve in warm tortillas."
+        ]
+    },
+    "sushi rice": {
+        "ingredients": [
+            {
+                "item": "sushi rice",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "water",
+                "quantity": 250,
+                "unit": "ml"
+            },
+            {
+                "item": "rice vinegar",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "sugar",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "salt",
+                "quantity": 0.5,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Rinse rice until water runs clear.",
+            "Cook rice with water.",
+            "Mix vinegar, sugar, and salt until dissolved.",
+            "Fold vinegar mixture into the cooked rice."
+        ]
+    },
+    "minestrone soup": {
+        "ingredients": [
+            {
+                "item": "vegetable broth",
+                "quantity": 1.5,
+                "unit": "L"
+            },
+            {
+                "item": "diced tomatoes",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "canned cannellini beans",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "pasta (small)",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "carrot",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "celery",
+                "quantity": 1,
+                "unit": "stalk"
+            },
+            {
+                "item": "zucchini",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "onion",
+                "quantity": 0.5,
+                "unit": "pcs"
+            }
+        ],
+        "instructions": [
+            "Saut\u00e9 onion, carrot, and celery.",
+            "Add broth, tomatoes, and zucchini; simmer.",
+            "Add beans and pasta; cook until pasta is done."
+        ]
+    },
+    "pesto pasta": {
+        "ingredients": [
+            {
+                "item": "pasta (penne/fusilli)",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "pesto sauce",
+                "quantity": 150,
+                "unit": "g"
+            },
+            {
+                "item": "parmesan cheese",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "pine nuts",
+                "quantity": 20,
+                "unit": "g"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Cook pasta until al dente.",
+            "Drain pasta, reserving some water.",
+            "Toss with pesto, parmesan, and a splash of reserved water.",
+            "Garnish with pine nuts."
+        ]
+    },
+    "shepherd's pie": {
+        "ingredients": [
+            {
+                "item": "ground lamb",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "mashed potatoes",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "carrot",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "peas",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "beef stock",
+                "quantity": 200,
+                "unit": "ml"
+            },
+            {
+                "item": "worcestershire sauce",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Brown lamb, drain fat.",
+            "Saut\u00e9 onion and carrot.",
+            "Add lamb, stock, Worcestershire sauce, and peas; simmer.",
+            "Top with mashed potatoes and bake at 200\u00b0C for 20 minutes."
+        ]
+    },
+    "simple vinaigrette": {
+        "ingredients": [
+            {
+                "item": "olive oil",
+                "quantity": 3,
+                "unit": "tbsp"
+            },
+            {
+                "item": "red wine vinegar",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "dijon mustard",
+                "quantity": 1,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "immediately or store in the refrigerator."
+        ]
+    },
+    "baked salmon with lemon and dill": {
+        "ingredients": [
+            {
+                "item": "salmon fillet",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "lemon slices",
+                "quantity": 4,
+                "unit": "pcs"
+            },
+            {
+                "item": "fresh dill",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 200\u00b0C.",
+            "Place salmon on baking sheet.",
+            "Drizzle with oil, top with lemon, dill, salt, and pepper.",
+            "Bake for 12-15 minutes."
+        ]
+    },
+    "caprese salad": {
+        "ingredients": [
+            {
+                "item": "mozzarella balls",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "tomatoes",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "fresh basil",
+                "quantity": 10,
+                "unit": "leaves"
+            },
+            {
+                "item": "balsamic glaze",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Slice mozzarella and tomatoes.",
+            "Arrange alternating slices with basil leaves.",
+            "Drizzle with olive oil and balsamic glaze.",
+            "Season lightly with salt and pepper."
+        ]
+    },
+    "french toast": {
+        "ingredients": [
+            {
+                "item": "bread slices (thick)",
+                "quantity": 4,
+                "unit": "pcs"
+            },
+            {
+                "item": "egg",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "milk",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "cinnamon",
+                "quantity": 0.5,
+                "unit": "tsp"
+            },
+            {
+                "item": "vanilla extract",
+                "quantity": 0.5,
+                "unit": "tsp"
+            },
+            {
+                "item": "butter",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Whisk egg, milk, cinnamon, and vanilla.",
+            "Dip bread slices in mixture.",
+            "Melt butter in a pan.",
+            "Cook bread until golden brown on both sides."
+        ]
+    },
+    "black bean burgers": {
+        "ingredients": [
+            {
+                "item": "canned black beans",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "bread crumbs",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "onion",
+                "quantity": 0.25,
+                "unit": "pcs"
+            },
+            {
+                "item": "cumin",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "chili powder",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "egg",
+                "quantity": 1,
+                "unit": "pcs"
+            }
+        ],
+        "instructions": [
+            "Mash black beans.",
+            "Mix with bread crumbs, finely chopped onion, spices, and egg.",
+            "Form into patties.",
+            "Cook in a lightly oiled pan until heated through and browned."
+        ]
+    },
+    "quesadillas": {
+        "ingredients": [
+            {
+                "item": "flour tortillas",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "cheddar cheese (shredded)",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "cooked chicken (optional)",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "butter",
+                "quantity": 0.5,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Butter one side of a tortilla.",
+            "Place tortilla butter-side down in a pan.",
+            "Sprinkle half the cheese, add chicken, top with remaining cheese.",
+            "Cover with the second tortilla, cook until golden, flip, and cook the other side."
+        ]
+    },
+    "homemade lemonade": {
+        "ingredients": [
+            {
+                "item": "fresh lemon juice",
+                "quantity": 200,
+                "unit": "ml"
+            },
+            {
+                "item": "sugar",
+                "quantity": 150,
+                "unit": "g"
+            },
+            {
+                "item": "water",
+                "quantity": 1,
+                "unit": "L"
+            }
+        ],
+        "instructions": [
+            "Heat a small amount of water with sugar until dissolved (simple syrup).",
+            "Mix simple syrup with lemon juice and remaining water.",
+            "Chill and serve over ice."
+        ]
+    },
+    "pork chops with apples": {
+        "ingredients": [
+            {
+                "item": "pork chops",
+                "quantity": 4,
+                "unit": "pcs"
+            },
+            {
+                "item": "apple",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "butter",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "cinnamon",
+                "quantity": 0.5,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Season pork chops with salt and pepper.",
+            "Sear chops in butter until browned; remove.",
+            "Saut\u00e9 sliced apples in the same pan with cinnamon.",
+            "Return chops to pan and simmer until cooked through."
+        ]
+    },
+    "greek salad": {
+        "ingredients": [
+            {
+                "item": "cucumber",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "tomato",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "red onion",
+                "quantity": 0.5,
+                "unit": "pcs"
+            },
+            {
+                "item": "feta cheese",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "kalamata olives",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 3,
+                "unit": "tbsp"
+            },
+            {
+                "item": "red wine vinegar",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Chop cucumber, tomato, and red onion.",
+            "Combine vegetables, feta, and olives.",
+            "Whisk oil and vinegar for dressing.",
+            "Toss salad with dressing."
+        ]
+    },
+    "chicken pot pie": {
+        "ingredients": [
+            {
+                "item": "cooked chicken",
+                "quantity": 300,
+                "unit": "g"
+            },
+            {
+                "item": "mixed vegetables (frozen)",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "cream of chicken soup",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "milk",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "pie crust (refrigerated)",
+                "quantity": 1,
+                "unit": "pcs"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 200\u00b0C.",
+            "Mix chicken, vegetables, soup, and milk.",
+            "Pour into pie dish.",
+            "Top with pie crust, slit top.",
+            "Bake for 30 minutes until crust is golden."
+        ]
+    },
+    "tacos (ground beef)": {
+        "ingredients": [
+            {
+                "item": "ground beef",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "taco seasoning",
+                "quantity": 1,
+                "unit": "packet"
+            },
+            {
+                "item": "water",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "taco shells",
+                "quantity": 12,
+                "unit": "pcs"
+            },
+            {
+                "item": "lettuce",
+                "quantity": 1,
+                "unit": "cup"
+            },
+            {
+                "item": "cheddar cheese (shredded)",
+                "quantity": 100,
+                "unit": "g"
+            }
+        ],
+        "instructions": [
+            "Brown ground beef; drain fat.",
+            "Stir in taco seasoning and water; simmer until thickened.",
+            "Fill taco shells with meat, lettuce, and cheese."
+        ]
+    },
+    "roasted asparagus": {
+        "ingredients": [
+            {
+                "item": "asparagus spears",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "garlic powder",
+                "quantity": 0.5,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 200\u00b0C.",
+            "Toss asparagus with olive oil, garlic powder, salt, and pepper.",
+            "Spread on a baking sheet.",
+            "Roast for 10-15 minutes until tender-crisp."
+        ]
+    },
+    "salsa (fresh)": {
+        "ingredients": [
+            {
+                "item": "diced tomato",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "jalape\u00f1o",
+                "quantity": 0.5,
+                "unit": "pcs"
+            },
+            {
+                "item": "red onion",
+                "quantity": 0.25,
+                "unit": "pcs"
+            },
+            {
+                "item": "cilantro",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "lime juice",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Finely dice all vegetables.",
+            "Mix all ingredients in a bowl.",
+            "Let sit for 15 minutes for flavors to meld."
+        ]
+    },
+    "scrambled eggs (basic)": {
+        "ingredients": [
+            {
+                "item": "egg",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "milk or cream",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "butter",
+                "quantity": 0.5,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Whisk eggs, milk, salt, and pepper.",
+            "Melt butter in a non-stick pan over medium-low heat.",
+            "Pour in egg mixture.",
+            "Stir gently until cooked to desired consistency."
+        ]
+    },
+    "simple mashed potatoes": {
+        "ingredients": [
+            {
+                "item": "potatoes (russet or yukon gold)",
+                "quantity": 1,
+                "unit": "kg"
+            },
+            {
+                "item": "milk",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "butter",
+                "quantity": 50,
+                "unit": "g"
+            }
+        ],
+        "instructions": [
+            "Peel and boil potatoes until tender.",
+            "Drain well and mash.",
+            "Mix in butter, milk, salt, and pepper until smooth and creamy."
+        ]
+    },
+    "chicken stir-fry with cashew nuts": {
+        "ingredients": [
+            {
+                "item": "chicken breast",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "cashew nuts",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "bell peppers",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "soy sauce",
+                "quantity": 3,
+                "unit": "tbsp"
+            },
+            {
+                "item": "honey",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "ginger",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "vegetable oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Slice chicken and stir-fry in oil until cooked.",
+            "Add sliced peppers and stir-fry briefly.",
+            "Mix soy sauce, honey, and ginger.",
+            "Pour sauce over chicken and vegetables.",
+            "Stir in cashew nuts and serve."
+        ]
+    },
+    "potato salad (mayo-based)": {
+        "ingredients": [
+            {
+                "item": "potato",
+                "quantity": 800,
+                "unit": "g"
+            },
+            {
+                "item": "mayonnaise",
+                "quantity": 150,
+                "unit": "ml"
+            },
+            {
+                "item": "celery",
+                "quantity": 1,
+                "unit": "stalk"
+            },
+            {
+                "item": "red onion",
+                "quantity": 0.25,
+                "unit": "pcs"
+            },
+            {
+                "item": "mustard",
+                "quantity": 1,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Boil potatoes until tender, then dice.",
+            "In a large bowl, mix mayo, mustard, chopped celery, and onion.",
+            "Fold in the diced potatoes.",
+            "Season with salt and pepper, chill before serving."
+        ]
+    },
+    "pico de gallo": {
+        "ingredients": [
+            {
+                "item": "roma tomatoes (diced)",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "white onion (diced)",
+                "quantity": 0.25,
+                "unit": "pcs"
+            },
+            {
+                "item": "jalape\u00f1o (finely chopped)",
+                "quantity": 0.5,
+                "unit": "pcs"
+            },
+            {
+                "item": "cilantro (chopped)",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "lime juice",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Combine all diced ingredients in a bowl.",
+            "Stir in lime juice and salt.",
+            "Mix well and let sit for 10 minutes."
+        ]
+    },
+    "gazpacho (cold soup)": {
+        "ingredients": [
+            {
+                "item": "ripe tomatoes",
+                "quantity": 1,
+                "unit": "kg"
+            },
+            {
+                "item": "cucumber",
+                "quantity": 0.5,
+                "unit": "pcs"
+            },
+            {
+                "item": "green bell pepper",
+                "quantity": 0.5,
+                "unit": "pcs"
+            },
+            {
+                "item": "onion",
+                "quantity": 0.25,
+                "unit": "pcs"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 3,
+                "unit": "tbsp"
+            },
+            {
+                "item": "red wine vinegar",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Chop all vegetables roughly.",
+            "Blend vegetables with olive oil, vinegar, and salt until smooth.",
+            "Chill for at least 2 hours before serving."
+        ]
+    },
+    "baked sweet potato fries": {
+        "ingredients": [
+            {
+                "item": "sweet potatoes",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "smoked paprika",
+                "quantity": 0.5,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Preheat oven to 220\u00b0C.",
+            "Cut sweet potatoes into fries.",
+            "Toss with olive oil, paprika, and salt.",
+            "Bake for 20-25 minutes, flipping halfway, until crispy."
+        ]
+    },
+    "chicken tikka masala": {
+        "ingredients": [
+            {
+                "item": "chicken breast (cubed)",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "yogurt",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "tikka masala paste",
+                "quantity": 3,
+                "unit": "tbsp"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "crushed tomatoes",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "heavy cream",
+                "quantity": 100,
+                "unit": "ml"
+            },
+            {
+                "item": "vegetable oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Marinate chicken in yogurt and 1 tbsp of paste for 30 min.",
+            "Saut\u00e9 onion in oil.",
+            "Add remaining paste, tomatoes, and marinated chicken; simmer.",
+            "Stir in heavy cream and serve."
+        ]
+    },
+    "smoothie (berry banana)": {
+        "ingredients": [
+            {
+                "item": "frozen berries",
+                "quantity": 100,
+                "unit": "g"
+            },
+            {
+                "item": "banana",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "milk (dairy or non-dairy)",
+                "quantity": 200,
+                "unit": "ml"
+            },
+            {
+                "item": "honey (optional)",
+                "quantity": 1,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Combine all ingredients in a blender.",
+            "Blend until smooth and creamy.",
+            "Add more milk if needed to reach desired consistency."
+        ]
+    },
+    "creamy mushroom soup": {
+        "ingredients": [
+            {
+                "item": "mushrooms (sliced)",
+                "quantity": 300,
+                "unit": "g"
+            },
+            {
+                "item": "butter",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "onion (chopped)",
+                "quantity": 0.5,
+                "unit": "pcs"
+            },
+            {
+                "item": "vegetable stock",
+                "quantity": 500,
+                "unit": "ml"
+            },
+            {
+                "item": "heavy cream",
+                "quantity": 50,
+                "unit": "ml"
+            },
+            {
+                "item": "flour",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Melt butter, saut\u00e9 onion and mushrooms until soft.",
+            "Stir in flour.",
+            "Gradually add stock and simmer until slightly thickened.",
+            "Stir in cream, season, and serve (or blend for smooth consistency)."
+        ]
+    },
+    "classic chili": {
+        "ingredients": [
+            {
+                "item": "ground beef",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "kidney beans (canned)",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "diced tomatoes (canned)",
+                "quantity": 400,
+                "unit": "g"
+            },
+            {
+                "item": "chili powder",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "onion (chopped)",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "beef broth",
+                "quantity": 200,
+                "unit": "ml"
+            },
+            {
+                "item": "vegetable oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Brown ground beef and drain fat.",
+            "Saut\u00e9 onion in oil.",
+            "Add beef, beans, tomatoes, broth, and chili powder.",
+            "Simmer for at least 30 minutes, season with salt."
+        ]
+    },
+    "ratatouille": {
+        "ingredients": [
+            {
+                "item": "aubergine (eggplant)",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "courgette (zucchini)",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "bell pepper (red)",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "tomato (diced)",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pcs"
+            },
+            {
+                "item": "garlic",
+                "quantity": 3,
+                "unit": "cloves"
+            },
+            {
+                "item": "olive oil",
+                "quantity": 3,
+                "unit": "tbsp"
+            },
+            {
+                "item": "herbs de provence",
+                "quantity": 1,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Chop all vegetables into similar sized pieces.",
+            "Saut\u00e9 onion and garlic in olive oil.",
+            "Add other vegetables and herbs.",
+            "Cover and simmer for 30-40 minutes until vegetables are tender."
+        ]
+    },
+    "tiramisu (simple)": {
+        "ingredients": [
+            {
+                "item": "savoiardi (ladyfingers)",
+                "quantity": 24,
+                "unit": "pcs"
+            },
+            {
+                "item": "mascarpone cheese",
+                "quantity": 250,
+                "unit": "g"
+            },
+            {
+                "item": "egg yolks",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "sugar",
+                "quantity": 50,
+                "unit": "g"
+            },
+            {
+                "item": "strong coffee (cooled)",
+                "quantity": 200,
+                "unit": "ml"
+            },
+            {
+                "item": "cocoa powder",
+                "quantity": 0,
+                "unit": "for dusting"
+            }
+        ],
+        "instructions": [
+            "Whisk egg yolks and sugar until pale and thick.",
+            "Fold in mascarpone.",
+            "Dip ladyfingers quickly in coffee.",
+            "Layer ladyfingers and mascarpone mixture in a dish.",
+            "Chill for several hours, dust with cocoa before serving."
+        ]
+    },
+    "honey-garlic shrimp": {
+        "ingredients": [
+            {
+                "item": "shrimp (peeled & deveined)",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "honey",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "soy sauce",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "garlic (minced)",
+                "quantity": 3,
+                "unit": "cloves"
+            },
+            {
+                "item": "butter",
+                "quantity": 1,
+                "unit": "tbsp"
+            }
+        ],
+        "instructions": [
+            "Mix honey, soy sauce, and garlic for the sauce.",
+            "Melt butter in a pan.",
+            "Cook shrimp until pink.",
+            "Pour sauce over shrimp and cook until sauce is thickened."
+        ]
+    },
+    "steamed rice": {
+        "ingredients": [
+            {
+                "item": "chinese cooking wine",
+                "quantity": "2",
+                "unit": "tsp"
+            },
+            {
+                "item": "oyster sauce",
+                "quantity": "1",
+                "unit": "tsp"
+            },
+            {
+                "item": "cornstarch",
+                "quantity": "1",
+                "unit": "tsp"
+            },
+            {
+                "item": "sesame oil",
+                "quantity": "1/2",
+                "unit": "tsp"
+            }
+        ],
+        "instructions": []
+    }
 }
