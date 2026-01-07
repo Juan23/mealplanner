@@ -11,7 +11,10 @@
     },
     "2026-01-09": {
         "breakfast": [
-            "steamed rice",
+            {
+                "recipe": "steamed rice",
+                "servings": 1
+            },
             "steamed rice"
         ]
     },
@@ -19,7 +22,7 @@
         "breakfast": [
             {
                 "recipe": "brownies",
-                "servings": 1
+                "servings": 3
             },
             {
                 "recipe": "caesar salad",

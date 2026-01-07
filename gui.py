@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from datetime import date, timedelta
 import cli
+import difflib
 
 
 # --- State ---
@@ -321,6 +322,52 @@ def open_add_meal_dialog(date_str, meal_type, callback):
     dialog.open()
 
 
+def open_new_recipe_dialog(callback):
+    """
+    Opens a dialog to ask for recipe name and check for duplicates.
+    """
+    with ui.dialog() as dialog, ui.card().classes("w-full max-w-md bg-white dark:bg-gray-900"):
+        ui.label("New Recipe Name").classes("text-xl font-bold dark:text-gray-100")
+        name_input = ui.input("Enter name").classes("w-full").props("autofocus")
+
+        results_area = ui.column().classes("w-full mt-2")
+
+        def check_and_proceed():
+            name_val = name_input.value.strip()
+            if not name_val:
+                return
+            name_lower = name_val.lower()
+
+            recipes = cli.get_all_recipes()
+
+            # Exact match
+            if name_lower in recipes:
+                dialog.close()
+                open_recipe_editor(name_lower, callback)
+                return
+
+            # Close matches
+            matches = difflib.get_close_matches(name_lower, recipes.keys(), n=3, cutoff=0.6)
+
+            results_area.clear()
+            with results_area:
+                if matches:
+                    ui.label("Found similar recipes:").classes("text-sm font-bold text-gray-600 dark:text-gray-300 mt-2")
+                    for m in matches:
+                        ui.button(f"{m.title()}", on_click=lambda n=m: [dialog.close(), open_recipe_editor(n, callback)]).props("flat w-full align-left no-caps")
+                    ui.separator().classes("my-2")
+
+                ui.button(f"Create New Recipe '{name_val}'", on_click=lambda n=name_val: [dialog.close(), open_recipe_editor(n, callback)]).classes("w-full mt-2")
+
+        name_input.on('keydown.enter', check_and_proceed)
+
+        with ui.row().classes("w-full justify-end mt-4"):
+            ui.button("Cancel", on_click=dialog.close).props("flat")
+            ui.button("Check", on_click=check_and_proceed)
+
+    dialog.open()
+
+
 def render_recipes_tab():
     """
     Renders the 'Recipes' tab.
@@ -332,7 +379,7 @@ def render_recipes_tab():
             ui.button(
                 "New Recipe",
                 icon="add",
-                on_click=lambda: open_recipe_editor(None, refresh_list),
+                on_click=lambda: open_new_recipe_dialog(refresh_list),
             )
 
         recipe_list = ui.column().classes("w-full gap-2")
@@ -364,6 +411,11 @@ def render_recipes_tab():
 
                             with ui.row().classes("mt-4"):
                                 ui.button(
+                                    "Edit",
+                                    icon="edit",
+                                    on_click=lambda n=name: open_recipe_editor(n, refresh_list),
+                                ).props("flat")
+                                ui.button(
                                     "Delete",
                                     color="red",
                                     icon="delete",
@@ -386,14 +438,29 @@ def open_recipe_editor(existing_name, callback):
     """
     ingredients_list = []
     instructions_list = []
+    initial_servings = 1
+    initial_name = ""
+    is_editing = False
+
+    if existing_name:
+        recipes = cli.get_all_recipes()
+        if existing_name in recipes:
+            is_editing = True
+            data = recipes[existing_name]
+            ingredients_list = [i.copy() for i in data.get("ingredients", [])]
+            instructions_list = data.get("instructions", [])[:]
+            initial_servings = float(data.get("servings", 1))
+            initial_name = existing_name
+        else:
+            initial_name = existing_name
 
     with ui.dialog() as dialog, ui.card().classes(
         "w-full max-w-[600px] bg-white dark:bg-gray-900"
     ):
-        ui.label("New Recipe").classes("text-xl font-bold dark:text-gray-100")
+        ui.label("Edit Recipe" if is_editing else "New Recipe").classes("text-xl font-bold dark:text-gray-100")
 
-        name_input = ui.input("Recipe Name").classes("w-full")
-        servings_input = ui.number("Servings", value=1, min=1).classes("w-full")
+        name_input = ui.input("Recipe Name", value=initial_name).classes("w-full")
+        servings_input = ui.number("Servings", value=initial_servings, min=1).classes("w-full")
 
         ui.label("Ingredients").classes("font-bold mt-2 dark:text-gray-100")
         ing_container = ui.column().classes("w-full")
@@ -419,9 +486,9 @@ def open_recipe_editor(existing_name, callback):
 
         # --- Add Ingredient Inputs ---
         with ui.row().classes("w-full items-end gap-2"):
-            i_name = ui.input("Item").classes("flex-grow")
             i_qty = ui.input("Qty").classes("w-16")
             i_unit = ui.input("Unit").classes("w-16")
+            i_name = ui.input("Item").classes("flex-grow")
 
             def add_ing():
                 if i_name.value and i_qty.value:
