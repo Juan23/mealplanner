@@ -137,7 +137,7 @@ def render_meal_plan_tab():
                                     )
                                     ui.button(
                                         icon="add",
-                                        on_click=lambda d=d_str, m=m_type: open_add_meal_dialog(
+                                        on_click=lambda e, d=d_str, m=m_type: open_add_meal_dialog(
                                             d, m, refresh_plan
                                         ),
                                     ).props("round flat dense size=sm").classes(
@@ -174,7 +174,7 @@ def render_meal_plan_tab():
                                             )
                                             ui.button(
                                                 icon="close",
-                                                on_click=lambda d=d_str, m=m_type, i=idx: [
+                                                on_click=lambda e, d=d_str, m=m_type, i=idx: [
                                                     cli.remove_from_meal_plan(d, m, i),
                                                     refresh_plan(),
                                                 ],
@@ -322,52 +322,6 @@ def open_add_meal_dialog(date_str, meal_type, callback):
     dialog.open()
 
 
-def open_new_recipe_dialog(callback):
-    """
-    Opens a dialog to ask for recipe name and check for duplicates.
-    """
-    with ui.dialog() as dialog, ui.card().classes("w-full max-w-md bg-white dark:bg-gray-900"):
-        ui.label("New Recipe Name").classes("text-xl font-bold dark:text-gray-100")
-        name_input = ui.input("Enter name").classes("w-full").props("autofocus")
-
-        results_area = ui.column().classes("w-full mt-2")
-
-        def check_and_proceed():
-            name_val = name_input.value.strip()
-            if not name_val:
-                return
-            name_lower = name_val.lower()
-
-            recipes = cli.get_all_recipes()
-
-            # Exact match
-            if name_lower in recipes:
-                dialog.close()
-                open_recipe_editor(name_lower, callback)
-                return
-
-            # Close matches
-            matches = difflib.get_close_matches(name_lower, recipes.keys(), n=3, cutoff=0.6)
-
-            results_area.clear()
-            with results_area:
-                if matches:
-                    ui.label("Found similar recipes:").classes("text-sm font-bold text-gray-600 dark:text-gray-300 mt-2")
-                    for m in matches:
-                        ui.button(f"{m.title()}", on_click=lambda n=m: [dialog.close(), open_recipe_editor(n, callback)]).props("flat w-full align-left no-caps")
-                    ui.separator().classes("my-2")
-
-                ui.button(f"Create New Recipe '{name_val}'", on_click=lambda n=name_val: [dialog.close(), open_recipe_editor(n, callback)]).classes("w-full mt-2")
-
-        name_input.on('keydown.enter', check_and_proceed)
-
-        with ui.row().classes("w-full justify-end mt-4"):
-            ui.button("Cancel", on_click=dialog.close).props("flat")
-            ui.button("Check", on_click=check_and_proceed)
-
-    dialog.open()
-
-
 def render_recipes_tab():
     """
     Renders the 'Recipes' tab.
@@ -379,7 +333,7 @@ def render_recipes_tab():
             ui.button(
                 "New Recipe",
                 icon="add",
-                on_click=lambda: open_new_recipe_dialog(refresh_list),
+                on_click=lambda: open_recipe_editor(None, refresh_list),
             )
 
         recipe_list = ui.column().classes("w-full gap-2")
@@ -410,16 +364,18 @@ def render_recipes_tab():
                                 ui.label(f"{i}. {step}").classes("dark:text-gray-200")
 
                             with ui.row().classes("mt-4"):
+                                # Fix: Accept event 'e' so 'n' takes 'name'
                                 ui.button(
                                     "Edit",
                                     icon="edit",
-                                    on_click=lambda n=name: open_recipe_editor(n, refresh_list),
+                                    on_click=lambda e, n=name: open_recipe_editor(n, refresh_list),
                                 ).props("flat")
+                                # Fix: Accept event 'e' so 'n' takes 'name'
                                 ui.button(
                                     "Delete",
                                     color="red",
                                     icon="delete",
-                                    on_click=lambda n=name: [
+                                    on_click=lambda e, n=name: [
                                         cli.delete_recipe(n),
                                         refresh_list(),
                                     ],
@@ -474,9 +430,10 @@ def open_recipe_editor(existing_name, callback):
                         ui.label(
                             f"{ing['quantity']} {ing['unit']} {ing['item']}"
                         ).classes("flex-grow dark:text-gray-200")
+                        # Fix: Accept event 'e' so 'idx' takes 'i'
                         ui.button(
                             icon="delete",
-                            on_click=lambda idx=i: [
+                            on_click=lambda e, idx=i: [
                                 ingredients_list.pop(idx),
                                 refresh_ings(),
                             ],
@@ -518,9 +475,10 @@ def open_recipe_editor(existing_name, callback):
                         ui.label(f"{i+1}. {step}").classes(
                             "flex-grow dark:text-gray-200"
                         )
+                        # Fix: Accept event 'e' so 'idx' takes 'i'
                         ui.button(
                             icon="delete",
-                            on_click=lambda idx=i: [
+                            on_click=lambda e, idx=i: [
                                 instructions_list.pop(idx),
                                 refresh_inst(),
                             ],
