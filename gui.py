@@ -9,6 +9,7 @@ from pathlib import Path
 from datetime import date, timedelta
 import cli
 import difflib
+import asyncio
 
 
 # --- State ---
@@ -327,13 +328,144 @@ def render_recipes_tab():
     Renders the 'Recipes' tab.
     Lists existing recipes and provides a button to create new ones.
     """
+
+    # --- Persistent Editor Dialog ---
+    # Defined outside the list refresh logic to ensure it exists permanently in the tab
+    with ui.dialog() as editor_dialog, ui.card().classes(
+        "w-full max-w-[600px] bg-white dark:bg-gray-900"
+    ):
+        editor_title = ui.label().classes("text-xl font-bold dark:text-gray-100")
+        editor_content = ui.column().classes("w-full")
+
+    # --- Persistent Selection Dialog ---
+    with ui.dialog() as selection_dialog, ui.card().classes("bg-white dark:bg-gray-900 w-full max-w-sm"):
+        ui.label("Similar Recipes Found").classes("text-lg font-bold dark:text-gray-100")
+        ui.label("Did you mean one of these?").classes("dark:text-gray-200 mb-2")
+        selection_content = ui.column().classes("w-full gap-2")
+        ui.button("Cancel", on_click=selection_dialog.close).props("flat").classes("w-full mt-2")
+
+    def open_editor(existing_name):
+        editor_content.clear()
+        
+        ingredients_list = []
+        instructions_list = []
+        initial_servings = 1
+        is_editing = False
+
+        if existing_name:
+            recipes = cli.get_all_recipes()
+            if existing_name in recipes:
+                is_editing = True
+                data = recipes[existing_name]
+                ingredients_list = [i.copy() for i in data.get("ingredients", [])]
+                instructions_list = data.get("instructions", [])[:]
+                initial_servings = float(data.get("servings", 1))
+
+        editor_title.text = "Edit Recipe" if is_editing else "New Recipe"
+
+        with editor_content:
+            name_input = ui.input("Recipe Name", value=existing_name or "").classes("w-full")
+            servings_input = ui.number("Servings", value=initial_servings, min=1).classes("w-full")
+
+            ui.label("Ingredients").classes("font-bold mt-2 dark:text-gray-100")
+            ing_container = ui.column().classes("w-full")
+
+            def refresh_ings():
+                ing_container.clear()
+                with ing_container:
+                    for i, ing in enumerate(ingredients_list):
+                        with ui.row().classes("items-center w-full"):
+                            ui.label(f"{ing['quantity']} {ing['unit']} {ing['item']}").classes("flex-grow dark:text-gray-200")
+                            ui.button(icon="delete", on_click=lambda e, idx=i: [ingredients_list.pop(idx), refresh_ings()]).props("flat dense color=red")
+
+            refresh_ings()
+
+            with ui.row().classes("w-full items-end gap-2"):
+                i_qty = ui.input("Qty").classes("w-16")
+                i_unit = ui.input("Unit").classes("w-16")
+                i_name = ui.input("Item").classes("flex-grow")
+                def add_ing():
+                    if i_name.value and i_qty.value:
+                        ingredients_list.append({"item": i_name.value, "quantity": i_qty.value, "unit": i_unit.value})
+                        i_name.value = ""; i_qty.value = ""; i_unit.value = ""; refresh_ings()
+                ui.button(icon="add", on_click=add_ing).props("round dense")
+
+            ui.label("Instructions").classes("font-bold mt-2 dark:text-gray-100")
+            inst_container = ui.column().classes("w-full")
+
+            def refresh_inst():
+                inst_container.clear()
+                with inst_container:
+                    for i, step in enumerate(instructions_list):
+                        with ui.row().classes("items-center w-full"):
+                            ui.label(f"{i+1}. {step}").classes("flex-grow dark:text-gray-200")
+                            ui.button(icon="delete", on_click=lambda e, idx=i: [instructions_list.pop(idx), refresh_inst()]).props("flat dense color=red")
+
+            refresh_inst()
+
+            with ui.row().classes("w-full items-end gap-2"):
+                inst_input = ui.input("Step").classes("flex-grow")
+                def add_inst():
+                    if inst_input.value:
+                        instructions_list.append(inst_input.value)
+                        inst_input.value = ""; refresh_inst()
+                ui.button(icon="add", on_click=add_inst).props("round dense")
+
+            with ui.row().classes("w-full justify-end mt-4"):
+                ui.button("Cancel", on_click=editor_dialog.close).props("flat")
+                def save():
+                    if name_input.value:
+                        cli.add_recipe(name_input.value.lower(), ingredients_list, instructions_list, servings=float(servings_input.value or 1))
+                        refresh_list()
+                        editor_dialog.close()
+                ui.button("Save", on_click=save)
+
+        editor_dialog.open()
+
+    def check_new_name():
+        with ui.dialog() as dialog, ui.card().classes("w-full max-w-sm bg-white dark:bg-gray-900"):
+            ui.label("New Recipe Name").classes("text-xl font-bold dark:text-gray-100")
+            name_input = ui.input("Name").classes("w-full").props("autofocus")
+
+            def proceed():
+                name = name_input.value.strip().lower()
+                if not name: return
+                recipes = cli.get_all_recipes()
+                
+                if name in recipes:
+                    ui.notify(f"Recipe '{name}' already exists.")
+                    dialog.close()
+                    open_editor(name)
+                    return
+
+                matches = difflib.get_close_matches(name, recipes.keys(), n=3, cutoff=0.6)
+                if matches:
+                    dialog.close()
+                    selection_content.clear()
+                    with selection_content:
+                        for match in matches:
+                            ui.button(f"Edit '{match}'", on_click=lambda _, m=match: [selection_dialog.close(), open_editor(m)]).classes("w-full").props("flat border")
+                        
+                        ui.separator().classes("my-2")
+                        ui.button(f"Create '{name}'", color="green", on_click=lambda: [selection_dialog.close(), open_editor(name)]).classes("w-full")
+                    selection_dialog.open()
+                else:
+                    dialog.close()
+                    open_editor(name)
+
+            name_input.on("keydown.enter", proceed)
+            with ui.row().classes("w-full justify-end mt-4"):
+                ui.button("Cancel", on_click=dialog.close).props("flat")
+                ui.button("Next", on_click=proceed)
+        dialog.open()
+
     with ui.column().classes("w-full"):
         with ui.row().classes("w-full justify-between items-center mb-4"):
             ui.label("Recipes").classes("text-2xl dark:text-gray-100")
             ui.button(
                 "New Recipe",
                 icon="add",
-                on_click=lambda: open_recipe_editor(None, refresh_list),
+                on_click=check_new_name,
             )
 
         recipe_list = ui.column().classes("w-full gap-2")
@@ -368,7 +500,7 @@ def render_recipes_tab():
                                 ui.button(
                                     "Edit",
                                     icon="edit",
-                                    on_click=lambda e, n=name: open_recipe_editor(n, refresh_list),
+                                    on_click=lambda e, n=name: open_editor(n),
                                 ).props("flat")
                                 # Fix: Accept event 'e' so 'n' takes 'name'
                                 ui.button(
@@ -382,139 +514,6 @@ def render_recipes_tab():
                                 ).props("flat")
 
         refresh_list()
-
-
-def open_recipe_editor(existing_name, callback):
-    """
-    Opens a dialog to create a new recipe or edit an existing one.
-
-    Args:
-        existing_name (str or None): Name of the recipe if editing, else None.
-        callback (callable): Function to run after saving.
-    """
-    ingredients_list = []
-    instructions_list = []
-    initial_servings = 1
-    initial_name = ""
-    is_editing = False
-
-    if existing_name:
-        recipes = cli.get_all_recipes()
-        if existing_name in recipes:
-            is_editing = True
-            data = recipes[existing_name]
-            ingredients_list = [i.copy() for i in data.get("ingredients", [])]
-            instructions_list = data.get("instructions", [])[:]
-            initial_servings = float(data.get("servings", 1))
-            initial_name = existing_name
-        else:
-            initial_name = existing_name
-
-    with ui.dialog() as dialog, ui.card().classes(
-        "w-full max-w-[600px] bg-white dark:bg-gray-900"
-    ):
-        ui.label("Edit Recipe" if is_editing else "New Recipe").classes("text-xl font-bold dark:text-gray-100")
-
-        name_input = ui.input("Recipe Name", value=initial_name).classes("w-full")
-        servings_input = ui.number("Servings", value=initial_servings, min=1).classes("w-full")
-
-        ui.label("Ingredients").classes("font-bold mt-2 dark:text-gray-100")
-        ing_container = ui.column().classes("w-full")
-
-        def refresh_ings():
-            """Refreshes the ingredients list UI inside the dialog."""
-            ing_container.clear()
-            with ing_container:
-                for i, ing in enumerate(ingredients_list):
-                    with ui.row().classes("items-center w-full"):
-                        ui.label(
-                            f"{ing['quantity']} {ing['unit']} {ing['item']}"
-                        ).classes("flex-grow dark:text-gray-200")
-                        # Fix: Accept event 'e' so 'idx' takes 'i'
-                        ui.button(
-                            icon="delete",
-                            on_click=lambda e, idx=i: [
-                                ingredients_list.pop(idx),
-                                refresh_ings(),
-                            ],
-                        ).props("flat dense color=red")
-
-        refresh_ings()
-
-        # --- Add Ingredient Inputs ---
-        with ui.row().classes("w-full items-end gap-2"):
-            i_qty = ui.input("Qty").classes("w-16")
-            i_unit = ui.input("Unit").classes("w-16")
-            i_name = ui.input("Item").classes("flex-grow")
-
-            def add_ing():
-                if i_name.value and i_qty.value:
-                    ingredients_list.append(
-                        {
-                            "item": i_name.value,
-                            "quantity": i_qty.value,
-                            "unit": i_unit.value,
-                        }
-                    )
-                    i_name.value = ""
-                    i_qty.value = ""
-                    i_unit.value = ""
-                    refresh_ings()
-
-            ui.button(icon="add", on_click=add_ing).props("round dense")
-
-        ui.label("Instructions").classes("font-bold mt-2 dark:text-gray-100")
-        inst_container = ui.column().classes("w-full")
-
-        def refresh_inst():
-            """Refreshes the instructions list UI inside the dialog."""
-            inst_container.clear()
-            with inst_container:
-                for i, step in enumerate(instructions_list):
-                    with ui.row().classes("items-center w-full"):
-                        ui.label(f"{i+1}. {step}").classes(
-                            "flex-grow dark:text-gray-200"
-                        )
-                        # Fix: Accept event 'e' so 'idx' takes 'i'
-                        ui.button(
-                            icon="delete",
-                            on_click=lambda e, idx=i: [
-                                instructions_list.pop(idx),
-                                refresh_inst(),
-                            ],
-                        ).props("flat dense color=red")
-
-        refresh_inst()
-
-        # --- Add Instruction Input ---
-        with ui.row().classes("w-full items-end gap-2"):
-            inst_input = ui.input("Step").classes("flex-grow")
-
-            def add_inst():
-                if inst_input.value:
-                    instructions_list.append(inst_input.value)
-                    inst_input.value = ""
-                    refresh_inst()
-
-            ui.button(icon="add", on_click=add_inst).props("round dense")
-
-        with ui.row().classes("w-full justify-end mt-4"):
-            ui.button("Cancel", on_click=dialog.close).props("flat")
-
-            def save():
-                if name_input.value:
-                    cli.add_recipe(
-                        name_input.value.lower(),
-                        ingredients_list,
-                        instructions_list,
-                        servings=float(servings_input.value or 1),
-                    )
-                    callback()
-                    dialog.close()
-
-            ui.button("Save", on_click=save)
-
-    dialog.open()
 
 
 def render_shopping_list_tab():
@@ -565,7 +564,8 @@ def render_settings_tab():
 
         # Setting: Number of days to display in the Meal Plan view
         days = ui.number(
-            "Days to View in Meal Plan", value=state["view_days"], min=1, max=14
+            "Days to View in Meal Plan", value=state["view_days"],
+             min=1, max=14
         ).classes("w-64")
 
         def save():
