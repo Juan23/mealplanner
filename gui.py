@@ -39,13 +39,18 @@ def main_page():
     Includes the header, navigation tabs, and the container for tab panels.
     """
     ui.colors(primary="#5898d4")
+    # Enable dark mode
+    dark = ui.dark_mode()
 
     # --- Header & Navigation ---
     with ui.header(elevated=True).classes(
         "items-center justify-between flex-wrap gap-2 dark:bg-gray-800"
     ):
-        ui.label("Meal Planner").classes("text-2xl font-bold")
-        with ui.tabs() as tabs:
+        with ui.row().classes("items-center gap-4"):
+            ui.label("Meal Planner").classes("text-2xl font-bold")
+            ui.button(icon="dark_mode", on_click=dark.toggle).props("flat round text-white")
+
+        with ui.tabs().classes("bg-transparent") as tabs:
             ui.tab("home", label="Home")
             ui.tab("plan", label="Meal Plan")
             ui.tab("recipes", label="Recipes")
@@ -116,14 +121,18 @@ def render_meal_plan_tab():
                     d = state["current_date"] + timedelta(days=i)
                     d_str = d.isoformat()
                     day_data = plan_data.get(d_str, {})
+                    is_today = d == date.today()
+                    
+                    # Highlight today's card
+                    card_bg = "bg-blue-50 dark:bg-blue-900 border-primary border-2" if is_today else "bg-gray-50 dark:bg-gray-900"
 
                     # --- Day Card ---
                     with ui.card().classes(
-                        "w-full sm:w-[280px] bg-gray-50 dark:bg-gray-900 p-2"
+                        f"w-full sm:w-60 {card_bg} p-2 transition-all hover:shadow-md"
                     ):
-                        ui.label(d.strftime("%A, %b %d")).classes(
-                            "text-lg font-bold text-primary"
-                        )
+                        with ui.row().classes("w-full justify-between items-baseline"):
+                            ui.label(d.strftime("%A")).classes("text-lg font-bold text-primary")
+                            ui.label(d.strftime("%b %d")).classes("text-sm text-gray-500 dark:text-gray-400")
 
                         # Render sections for each meal type
                         for m_type in ["breakfast", "lunch", "dinner", "snack"]:
@@ -344,6 +353,37 @@ def render_recipes_tab():
         selection_content = ui.column().classes("w-full gap-2")
         ui.button("Cancel", on_click=selection_dialog.close).props("flat").classes("w-full mt-2")
 
+    # --- Persistent Details Dialog ---
+    with ui.dialog() as details_dialog, ui.card().classes("w-full max-w-lg bg-white dark:bg-gray-900"):
+        details_title = ui.label().classes("text-xl font-bold dark:text-gray-100")
+        details_content = ui.column().classes("w-full")
+        details_actions = ui.row().classes("w-full justify-end mt-4 gap-2")
+
+    def open_details(name):
+        recipes = cli.get_all_recipes()
+        data = recipes.get(name)
+        if not data: return
+        
+        details_title.text = name.title()
+        details_content.clear()
+        
+        with details_content:
+            ui.label("Ingredients:").classes("font-bold dark:text-gray-100")
+            for ing in data.get("ingredients", []):
+                ui.label(f"• {ing['quantity']} {ing['unit']} {ing['item']}").classes("dark:text-gray-200")
+            
+            ui.label("Instructions:").classes("font-bold mt-2 dark:text-gray-100")
+            for i, step in enumerate(data.get("instructions", []), 1):
+                ui.label(f"{i}. {step}").classes("dark:text-gray-200")
+        
+        details_actions.clear()
+        with details_actions:
+            ui.button("Delete", icon="delete", color="red", on_click=lambda: [cli.delete_recipe(name), details_dialog.close(), refresh_list(search_input.value)]).props("flat")
+            ui.button("Edit", icon="edit", on_click=lambda: [details_dialog.close(), open_editor(name)]).props("flat")
+            ui.button("Close", on_click=details_dialog.close).props("flat")
+        
+        details_dialog.open()
+
     def open_editor(existing_name):
         editor_content.clear()
         
@@ -459,59 +499,29 @@ def render_recipes_tab():
                 ui.button("Next", on_click=proceed)
         dialog.open()
 
-    with ui.column().classes("w-full"):
-        with ui.row().classes("w-full justify-between items-center mb-4"):
-            ui.label("Recipes").classes("text-2xl dark:text-gray-100")
+    with ui.column().classes("w-full max-w-4xl mx-auto p-4"):
+        with ui.row().classes("w-full gap-4 mb-4 items-center"):
+            search_input = ui.input(placeholder="Search recipes...", on_change=lambda e: refresh_list(e.value)).props("outlined dense rounded").classes("flex-grow")
             ui.button(
                 "New Recipe",
                 icon="add",
                 on_click=check_new_name,
-            )
+            ).props("unelevated color=primary")
 
         recipe_list = ui.column().classes("w-full gap-2")
 
-        def refresh_list():
+        def refresh_list(filter_text=""):
             """Reloads the list of recipes from storage."""
             recipe_list.clear()
             recipes = cli.get_all_recipes()
             with recipe_list:
                 for name in sorted(recipes.keys()):
-                    with ui.expansion(name.title()).classes(
-                        "w-full bg-gray-50 dark:bg-gray-900"
-                    ):
-                        data = recipes[name]
-                        with ui.column().classes("p-4"):
-                            ui.label("Ingredients:").classes(
-                                "font-bold dark:text-gray-100"
-                            )
-                            for ing in data.get("ingredients", []):
-                                ui.label(
-                                    f"• {ing['quantity']} {ing['unit']} {ing['item']}"
-                                ).classes("dark:text-gray-200")
-
-                            ui.label("Instructions:").classes(
-                                "font-bold mt-2 dark:text-gray-100"
-                            )
-                            for i, step in enumerate(data.get("instructions", []), 1):
-                                ui.label(f"{i}. {step}").classes("dark:text-gray-200")
-
-                            with ui.row().classes("mt-4"):
-                                # Fix: Accept event 'e' so 'n' takes 'name'
-                                ui.button(
-                                    "Edit",
-                                    icon="edit",
-                                    on_click=lambda e, n=name: open_editor(n),
-                                ).props("flat")
-                                # Fix: Accept event 'e' so 'n' takes 'name'
-                                ui.button(
-                                    "Delete",
-                                    color="red",
-                                    icon="delete",
-                                    on_click=lambda e, n=name: [
-                                        cli.delete_recipe(n),
-                                        refresh_list(),
-                                    ],
-                                ).props("flat")
+                    if filter_text.lower() and filter_text.lower() not in name.lower():
+                        continue
+                    
+                    with ui.card().classes("w-full bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800").on("click", lambda e, n=name: open_details(n)):
+                        with ui.row().classes("w-full items-center justify-between"):
+                            ui.label(name.title()).classes("text-lg font-medium dark:text-gray-100 pl-2")
 
         refresh_list()
 
@@ -525,8 +535,8 @@ def render_shopping_list_tab():
         ui.label("Shopping List").classes("text-2xl mb-4 dark:text-gray-100")
 
         with ui.row().classes("items-center gap-4 mb-4"):
-            days_input = ui.number("Days", value=7, min=1, max=30).classes("w-20")
-            ui.button("Generate", on_click=lambda: generate(days_input.value))
+            days_input = ui.number("Days", value=7, min=1, max=30).props("outlined dense").classes("w-24")
+            ui.button("Generate", on_click=lambda: generate(days_input.value)).props("unelevated")
 
         result_area = ui.column().classes("w-full")
 
@@ -535,6 +545,8 @@ def render_shopping_list_tab():
             result_area.clear()
             data = cli.generate_shopping_list_data(date.today(), int(days))
             sorted_items = sorted(data.keys())
+            
+            clipboard_text = []
 
             with result_area:
                 if not sorted_items:
@@ -547,11 +559,18 @@ def render_shopping_list_tab():
                     for unit, qty in units_dict.items():
                         qty_str = f"{qty:.2f}".rstrip("0").rstrip(".")
                         parts.append(f"{qty_str} {unit}")
+                    
+                    line_text = f"{item.title()}: {', '.join(parts)}"
+                    clipboard_text.append(f"- {line_text}")
 
                     with ui.row().classes("items-center"):
-                        ui.checkbox(f"{item.title()}: {', '.join(parts)}").classes(
+                        ui.checkbox(line_text).classes(
                             "dark:text-gray-200"
                         )
+            
+                if clipboard_text:
+                    ui.separator().classes("my-4")
+                    ui.button("Copy List", icon="content_copy", on_click=lambda: [ui.notify("Copied!"), ui.clipboard.write("\n".join(clipboard_text))]).props("flat icon-right")
 
 
 def render_settings_tab():
@@ -566,7 +585,7 @@ def render_settings_tab():
         days = ui.number(
             "Days to View in Meal Plan", value=state["view_days"],
              min=1, max=14
-        ).classes("w-64")
+        ).classes("w-64").props("outlined")
 
         def save():
             state["view_days"] = int(days.value)
