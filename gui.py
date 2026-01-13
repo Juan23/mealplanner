@@ -112,6 +112,19 @@ def render_meal_plan_tab():
             "w-full flex-wrap gap-4 items-start justify-center"
         )
 
+        def handle_drag_start(date_str, meal_type, index):
+            state["dragged_item"] = (date_str, meal_type, index)
+
+        def handle_drop(date_str, meal_type):
+            dragged = state.get("dragged_item")
+            if not dragged:
+                return
+            src_date, src_meal, src_index = dragged
+            if cli.move_meal_plan_entry(src_date, src_meal, src_index, date_str, meal_type):
+                ui.notify("Meal moved")
+                refresh_plan()
+            state["dragged_item"] = None
+
         def refresh_plan():
             """Fetches meal plan data and rebuilds the UI cards."""
             meal_plan_container.clear()
@@ -135,10 +148,12 @@ def render_meal_plan_tab():
                             ui.label(d.strftime("%b %d")).classes("text-sm text-gray-500 dark:text-gray-400")
 
                         # Render sections for each meal type
-                        for m_type in ["breakfast", "lunch", "dinner", "snack"]:
+                        for m_type in ["breakfast", "lunch", "snack", "dinner"]:
                             with ui.column().classes(
-                                "w-full mt-2 p-1 bg-gray-100 dark:bg-gray-800 rounded shadow-sm"
-                            ):
+                                "w-full mt-2 p-1 bg-gray-100 dark:bg-gray-800 rounded shadow-sm min-h-[2rem]"
+                            ) as col:
+                                col.on("dragover.prevent")
+                                col.on("drop", lambda e, d=d_str, m=m_type: handle_drop(d, m))
                                 with ui.row().classes(
                                     "w-full justify-between items-center"
                                 ):
@@ -166,31 +181,32 @@ def render_meal_plan_tab():
                                             servings = None
                                             display_text = item
 
-                                        with ui.row().classes(
-                                            "w-full justify-between items-center"
-                                        ):
-                                            ui.label(display_text).classes(
-                                                "text-sm dark:text-gray-200 cursor-pointer hover:underline"
-                                            ).on(
-                                                "click",
-                                                lambda _, n=r_name, s=servings, d=d_str, m=m_type, i=idx: open_recipe_details_dialog(
-                                                    n,
-                                                    s,
-                                                    on_servings_change=lambda val: cli.update_meal_plan_entry_servings(
-                                                        d, m, i, val
+                                        with ui.card().classes("w-full p-1 mb-1 bg-white dark:bg-gray-700 cursor-move").props("draggable").on("dragstart", lambda e, d=d_str, m=m_type, i=idx: handle_drag_start(d, m, i)):
+                                            with ui.row().classes(
+                                                "w-full justify-between items-center"
+                                            ):
+                                                ui.label(display_text).classes(
+                                                    "text-sm dark:text-gray-200 cursor-pointer hover:underline"
+                                                ).on(
+                                                    "click",
+                                                    lambda _, n=r_name, s=servings, d=d_str, m=m_type, i=idx: open_recipe_details_dialog(
+                                                        n,
+                                                        s,
+                                                        on_servings_change=lambda val: cli.update_meal_plan_entry_servings(
+                                                            d, m, i, val
+                                                        ),
+                                                        on_close=lambda: refresh_plan(),
                                                     ),
-                                                    on_close=lambda: refresh_plan(),
-                                                ),
-                                            )
-                                            ui.button(
-                                                icon="close",
-                                                on_click=lambda e, d=d_str, m=m_type, i=idx: [
-                                                    cli.remove_from_meal_plan(d, m, i),
-                                                    refresh_plan(),
-                                                ],
-                                            ).props(
-                                                "round flat dense size=xs color=red"
-                                            )
+                                                )
+                                                ui.button(
+                                                    icon="close",
+                                                    on_click=lambda e, d=d_str, m=m_type, i=idx: [
+                                                        cli.remove_from_meal_plan(d, m, i),
+                                                        refresh_plan(),
+                                                    ],
+                                                ).props(
+                                                    "round flat dense size=xs color=red"
+                                                )
                                 else:
                                     ui.label("-").classes("text-xs text-gray-300")
 
@@ -315,13 +331,29 @@ def open_add_meal_dialog(date_str, meal_type, callback):
             "text-xl font-bold dark:text-gray-100"
         )
 
-        select = ui.select(options, label="Search Recipe", with_input=True).classes(
-            "w-64"
-        )
+        with ui.row().classes("w-full items-baseline gap-2"):
+            select = ui.select(options, label="Search Recipe", with_input=True).classes(
+                "w-64"
+            )
+            servings_input = ui.number("Servings", value=1, min=0.1).classes("w-20")
+
+        def update_servings(e):
+            if e.value in recipes:
+                try:
+                    default = float(recipes[e.value].get("servings", 1))
+                    servings_input.value = default
+                except (ValueError, TypeError):
+                    pass
+        
+        select.on_value_change(update_servings)
 
         def save():
             if select.value:
-                cli.update_meal_plan(date_str, meal_type, select.value)
+                try:
+                    s_val = float(servings_input.value)
+                except (ValueError, TypeError):
+                    s_val = 1.0
+                cli.update_meal_plan(date_str, meal_type, select.value, s_val)
                 callback()
                 dialog.close()
 
@@ -499,7 +531,7 @@ def render_recipes_tab():
                 ui.button("Next", on_click=proceed)
         dialog.open()
 
-    with ui.column().classes("w-full max-w-4xl mx-auto p-4"):
+    with ui.column().classes("w-full max-w-6xl mx-auto p-4"):
         with ui.row().classes("w-full gap-4 mb-4 items-center"):
             search_input = ui.input(placeholder="Search recipes...", on_change=lambda e: refresh_list(e.value)).props("outlined dense rounded").classes("flex-grow")
             ui.button(
@@ -508,7 +540,7 @@ def render_recipes_tab():
                 on_click=check_new_name,
             ).props("unelevated color=primary")
 
-        recipe_list = ui.column().classes("w-full gap-2")
+        recipe_list = ui.grid().classes("w-full grid-cols-1 md:grid-cols-3 gap-4")
 
         def refresh_list(filter_text=""):
             """Reloads the list of recipes from storage."""
@@ -519,9 +551,8 @@ def render_recipes_tab():
                     if filter_text.lower() and filter_text.lower() not in name.lower():
                         continue
                     
-                    with ui.card().classes("w-full bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800").on("click", lambda e, n=name: open_details(n)):
-                        with ui.row().classes("w-full items-center justify-between"):
-                            ui.label(name.title()).classes("text-lg font-medium dark:text-gray-100 pl-2")
+                    with ui.card().classes("w-full h-32 flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 p-4 cursor-pointer hover:shadow-lg hover:scale-105 transition-all").on("click", lambda e, n=name: open_details(n)):
+                        ui.label(name.title()).classes("text-xl font-bold text-center dark:text-gray-100")
 
         refresh_list()
 

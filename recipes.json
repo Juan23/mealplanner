@@ -59,7 +59,8 @@
             "Add spices and tomatoes.",
             "Pour coconut milk and simmer until cooked.",
             "Season with salt and pepper."
-        ]
+        ],
+        "servings": 4.0
     },
     "beef stew": {
         "ingredients": [
@@ -2209,5 +2210,290 @@
             }
         ],
         "instructions": []
+    },
+    "binagoongang baboy": {
+        "ingredients": [
+            {
+                "item": "pork belly",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "item": "shrimp paste (bagoong alamang)",
+                "quantity": 4,
+                "unit": "tbsp"
+            },
+            {
+                "item": "garlic",
+                "quantity": 4,
+                "unit": "cloves"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pc"
+            },
+            {
+                "item": "tomatoes",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "vinegar",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "water",
+                "quantity": 250,
+                "unit": "ml"
+            },
+            {
+                "item": "eggplant",
+                "quantity": 1,
+                "unit": "pc"
+            },
+            {
+                "item": "brown sugar",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "cooking oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "green chili (siling haba)",
+                "quantity": 2,
+                "unit": "pcs"
+            }
+        ],
+        "instructions": [
+            "Cut pork belly into cubes.",
+            "Heat oil in a pan and saut\u00e9 garlic, onion, and tomatoes until soft.",
+            "Add the pork and cook until light brown.",
+            "Add the shrimp paste and cook for 2 minutes.",
+            "Pour in vinegar and let it boil without stirring for 3 minutes.",
+            "Add water and sugar. Bring to a boil then simmer for 40 minutes or until pork is tender.",
+            "Add the eggplant and chili. Cook for another 5 minutes.",
+            "Serve hot with rice."
+        ]
+    },
+    "kimchi duruchigi": {
+        "ingredients": [
+            {
+                "item": "pork belly or shoulder",
+                "quantity": 300,
+                "unit": "g"
+            },
+            {
+                "item": "aged kimchi",
+                "quantity": 300,
+                "unit": "g"
+            },
+            {
+                "item": "onion",
+                "quantity": 0.5,
+                "unit": "pc"
+            },
+            {
+                "item": "green onion",
+                "quantity": 1,
+                "unit": "stalk"
+            },
+            {
+                "item": "gochugaru (red chili flakes)",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "gochujang (red chili paste)",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "soy sauce",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "sugar",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "minced garlic",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "sesame oil",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "black pepper",
+                "quantity": 1,
+                "unit": "pinch"
+            }
+        ],
+        "instructions": [
+            "Slice pork and kimchi into bite-sized pieces.",
+            "In a bowl, mix pork with gochugaru, gochujang, soy sauce, sugar, garlic, and black pepper.",
+            "Heat a pan over medium-high heat and stir-fry the marinated pork until partially cooked.",
+            "Add the kimchi and sliced onion. Stir-fry together for 5-7 minutes.",
+            "Reduce heat and let it simmer briefly to allow flavors to meld.",
+            "Turn off heat, stir in sesame oil, and garnish with chopped green onions."
+        ]
+    },
+    "beef pares": {
+        "ingredients": [
+            {
+                "item": "beef brisket",
+                "quantity": 1,
+                "unit": "kg"
+            },
+            {
+                "item": "beef broth",
+                "quantity": 1,
+                "unit": "liter"
+            },
+            {
+                "item": "soy sauce",
+                "quantity": 0.5,
+                "unit": "cup"
+            },
+            {
+                "item": "brown sugar",
+                "quantity": 0.25,
+                "unit": "cup"
+            },
+            {
+                "item": "star anise",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "item": "garlic",
+                "quantity": 1,
+                "unit": "head"
+            },
+            {
+                "item": "ginger",
+                "quantity": 1,
+                "unit": "thumb-sized"
+            },
+            {
+                "item": "onion",
+                "quantity": 1,
+                "unit": "pc"
+            },
+            {
+                "item": "cornstarch",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "green onion",
+                "quantity": 1,
+                "unit": "stalk"
+            },
+            {
+                "item": "cooking oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "black pepper",
+                "quantity": 1,
+                "unit": "tsp"
+            }
+        ],
+        "instructions": [
+            "Cut beef brisket into cubes.",
+            "Heat oil in a pot and saut\u00e9 garlic, ginger, and onion until fragrant.",
+            "Add the beef brisket and brown slightly.",
+            "Pour in soy sauce, beef broth, and add star anise, brown sugar, and black pepper.",
+            "Bring to a boil, then lower heat to simmer for 1.5 to 2 hours until beef is very tender.",
+            "Dissolve cornstarch in a little water and stir into the stew to thicken the sauce.",
+            "Garnish with chopped green onions and serve with garlic fried rice."
+        ],
+        "servings": 4.0
+    },
+    "shrimp fried rice": {
+        "ingredients": [
+            {
+                "item": "shrimp",
+                "quantity": 200,
+                "unit": "g"
+            },
+            {
+                "item": "cooked rice",
+                "quantity": 3,
+                "unit": "cups"
+            },
+            {
+                "item": "egg",
+                "quantity": 2,
+                "unit": "pcs"
+            },
+            {
+                "item": "peas",
+                "quantity": 0.5,
+                "unit": "cup"
+            },
+            {
+                "item": "carrot",
+                "quantity": 0.5,
+                "unit": "cup"
+            },
+            {
+                "item": "green onion",
+                "quantity": 2,
+                "unit": "stalks"
+            },
+            {
+                "item": "garlic",
+                "quantity": 2,
+                "unit": "cloves"
+            },
+            {
+                "item": "soy sauce",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "oyster sauce",
+                "quantity": 1,
+                "unit": "tbsp"
+            },
+            {
+                "item": "sesame oil",
+                "quantity": 1,
+                "unit": "tsp"
+            },
+            {
+                "item": "cooking oil",
+                "quantity": 2,
+                "unit": "tbsp"
+            },
+            {
+                "item": "black pepper",
+                "quantity": 1,
+                "unit": "pinch"
+            }
+        ],
+        "instructions": [
+            "Heat 1 tbsp oil in a wok or pan over medium-high heat.",
+            "Scramble the eggs and remove from the pan. Set aside.",
+            "Add shrimp to the pan and cook until pink. Remove and set aside.",
+            "Add remaining oil. Saut\u00e9 garlic and carrots for 1-2 minutes.",
+            "Add peas and cooked rice. Stir-fry to break up any clumps.",
+            "Pour in soy sauce, oyster sauce, and sesame oil. Toss to coat evenly.",
+            "Stir in the cooked eggs and shrimp.",
+            "Season with black pepper and garnish with green onions.",
+            "Serve hot."
+        ]
     }
 }

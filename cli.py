@@ -60,11 +60,17 @@ def get_all_ingredients():
         return []
 
 
-def save_ingredient(name):
-    """Saves a new ingredient to the database if it doesn't exist."""
+def save_ingredients(names):
+    """Saves new ingredients to the database if they don't exist."""
     ingredients = get_all_ingredients()
-    if name not in ingredients:
-        ingredients.append(name)
+    updated = False
+    existing_set = set(ingredients)
+    for name in names:
+        if name not in existing_set:
+            ingredients.append(name)
+            existing_set.add(name)
+            updated = True
+    if updated:
         ingredients.sort()
         save_data("ingredients.json", ingredients)
 
@@ -79,8 +85,7 @@ def add_recipe(name, ingredients, instructions, servings=1):
     }
     save_data("recipes.json", recipes)
     # Ensure ingredients are in the ingredients database
-    for ing in ingredients:
-        save_ingredient(ing["item"])
+    save_ingredients([ing["item"] for ing in ingredients])
 
 
 def delete_recipe(name):
@@ -145,6 +150,30 @@ def update_meal_plan_entry_servings(date_str, meal_type, index, servings):
             save_data("meal_plan.json", plan)
         except IndexError:
             pass
+
+def move_meal_plan_entry(src_date, src_meal, src_index, dest_date, dest_meal):
+    """Moves a meal plan entry from one slot to another."""
+    plan = get_meal_plan()
+    if src_date in plan and src_meal in plan[src_date]:
+        try:
+            entry = plan[src_date][src_meal].pop(src_index)
+            # Cleanup
+            if not plan[src_date][src_meal]:
+                del plan[src_date][src_meal]
+            if not plan[src_date]:
+                del plan[src_date]
+            
+            if dest_date not in plan:
+                plan[dest_date] = {}
+            if dest_meal not in plan[dest_date]:
+                plan[dest_date][dest_meal] = []
+            
+            plan[dest_date][dest_meal].append(entry)
+            save_data("meal_plan.json", plan)
+            return True
+        except IndexError:
+            pass
+    return False
 
 
 def generate_shopping_list_data(start_date, days):

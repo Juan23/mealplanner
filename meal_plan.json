@@ -41,5 +41,27 @@
                 "servings": 6
             }
         ]
+    },
+    "2026-01-11": {
+        "dinner": [
+            {
+                "recipe": "beef pares",
+                "servings": 2
+            }
+        ],
+        "breakfast": [
+            {
+                "recipe": "tuna melt sandwich",
+                "servings": 1
+            }
+        ]
+    },
+    "2026-01-14": {
+        "dinner": [
+            {
+                "recipe": "chicken curry",
+                "servings": 4.0
+            }
+        ]
     }
 }
