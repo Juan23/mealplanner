@@ -314,128 +314,28 @@ def open_recipe_details_dialog(
     dialog.open()
 
 
-def open_add_meal_dialog(date_str, meal_type, callback):
+def open_recipe_editor(existing_name=None, on_save=None):
     """
-    Opens a dialog to add a recipe to a specific meal slot.
-
-    Args:
-        date_str (str): ISO formatted date string.
-        meal_type (str): 'breakfast', 'lunch', 'dinner', or 'snack'.
-        callback (callable): Function to run after adding (usually to refresh UI).
+    Opens a dialog to create or edit a recipe.
     """
-    recipes = cli.get_all_recipes()
-    options = sorted(list(recipes.keys()))
+    ingredients_list = []
+    instructions_list = []
+    initial_servings = 1.0
+    is_editing = False
 
-    with ui.dialog() as dialog, ui.card().classes("bg-white dark:bg-gray-900"):
-        ui.label(f"Add to {meal_type.title()}").classes(
-            "text-xl font-bold dark:text-gray-100"
-        )
-
-        with ui.row().classes("w-full items-baseline gap-2"):
-            select = ui.select(options, label="Search Recipe", with_input=True).classes(
-                "w-64"
-            )
-            servings_input = ui.number("Servings", value=1, min=0.1).classes("w-20")
-
-        def update_servings(e):
-            if e.value in recipes:
-                try:
-                    default = float(recipes[e.value].get("servings", 1))
-                    servings_input.value = default
-                except (ValueError, TypeError):
-                    pass
-        
-        select.on_value_change(update_servings)
-
-        def save():
-            if select.value:
-                try:
-                    s_val = float(servings_input.value)
-                except (ValueError, TypeError):
-                    s_val = 1.0
-                cli.update_meal_plan(date_str, meal_type, select.value, s_val)
-                callback()
-                dialog.close()
-
-        with ui.row().classes("w-full justify-end"):
-            ui.button("Cancel", on_click=dialog.close).props("flat")
-            ui.button("Add", on_click=save)
-
-    dialog.open()
-
-
-def render_recipes_tab():
-    """
-    Renders the 'Recipes' tab.
-    Lists existing recipes and provides a button to create new ones.
-    """
-
-    # --- Persistent Editor Dialog ---
-    # Defined outside the list refresh logic to ensure it exists permanently in the tab
-    with ui.dialog() as editor_dialog, ui.card().classes(
-        "w-full max-w-[600px] bg-white dark:bg-gray-900"
-    ):
-        editor_title = ui.label().classes("text-xl font-bold dark:text-gray-100")
-        editor_content = ui.column().classes("w-full")
-
-    # --- Persistent Selection Dialog ---
-    with ui.dialog() as selection_dialog, ui.card().classes("bg-white dark:bg-gray-900 w-full max-w-sm"):
-        ui.label("Similar Recipes Found").classes("text-lg font-bold dark:text-gray-100")
-        ui.label("Did you mean one of these?").classes("dark:text-gray-200 mb-2")
-        selection_content = ui.column().classes("w-full gap-2")
-        ui.button("Cancel", on_click=selection_dialog.close).props("flat").classes("w-full mt-2")
-
-    # --- Persistent Details Dialog ---
-    with ui.dialog() as details_dialog, ui.card().classes("w-full max-w-lg bg-white dark:bg-gray-900"):
-        details_title = ui.label().classes("text-xl font-bold dark:text-gray-100")
-        details_content = ui.column().classes("w-full")
-        details_actions = ui.row().classes("w-full justify-end mt-4 gap-2")
-
-    def open_details(name):
+    if existing_name:
         recipes = cli.get_all_recipes()
-        data = recipes.get(name)
-        if not data: return
-        
-        details_title.text = name.title()
-        details_content.clear()
-        
-        with details_content:
-            ui.label("Ingredients:").classes("font-bold dark:text-gray-100")
-            for ing in data.get("ingredients", []):
-                ui.label(f"• {ing['quantity']} {ing['unit']} {ing['item']}").classes("dark:text-gray-200")
-            
-            ui.label("Instructions:").classes("font-bold mt-2 dark:text-gray-100")
-            for i, step in enumerate(data.get("instructions", []), 1):
-                ui.label(f"{i}. {step}").classes("dark:text-gray-200")
-        
-        details_actions.clear()
-        with details_actions:
-            ui.button("Delete", icon="delete", color="red", on_click=lambda: [cli.delete_recipe(name), details_dialog.close(), refresh_list(search_input.value)]).props("flat")
-            ui.button("Edit", icon="edit", on_click=lambda: [details_dialog.close(), open_editor(name)]).props("flat")
-            ui.button("Close", on_click=details_dialog.close).props("flat")
-        
-        details_dialog.open()
+        if existing_name in recipes:
+            is_editing = True
+            data = recipes[existing_name]
+            ingredients_list = [i.copy() for i in data.get("ingredients", [])]
+            instructions_list = data.get("instructions", [])[:]
+            initial_servings = float(data.get("servings", 1))
 
-    def open_editor(existing_name):
-        editor_content.clear()
+    with ui.dialog() as dialog, ui.card().classes("w-full max-w-[600px] bg-white dark:bg-gray-900"):
+        ui.label("Edit Recipe" if is_editing else "New Recipe").classes("text-xl font-bold dark:text-gray-100")
         
-        ingredients_list = []
-        instructions_list = []
-        initial_servings = 1
-        is_editing = False
-
-        if existing_name:
-            recipes = cli.get_all_recipes()
-            if existing_name in recipes:
-                is_editing = True
-                data = recipes[existing_name]
-                ingredients_list = [i.copy() for i in data.get("ingredients", [])]
-                instructions_list = data.get("instructions", [])[:]
-                initial_servings = float(data.get("servings", 1))
-
-        editor_title.text = "Edit Recipe" if is_editing else "New Recipe"
-
-        with editor_content:
+        with ui.column().classes("w-full"):
             name_input = ui.input("Recipe Name", value=existing_name or "").classes("w-full")
             servings_input = ui.number("Servings", value=initial_servings, min=1).classes("w-full")
 
@@ -484,15 +384,128 @@ def render_recipes_tab():
                 ui.button(icon="add", on_click=add_inst).props("round dense")
 
             with ui.row().classes("w-full justify-end mt-4"):
-                ui.button("Cancel", on_click=editor_dialog.close).props("flat")
+                ui.button("Cancel", on_click=dialog.close).props("flat")
                 def save():
                     if name_input.value:
-                        cli.add_recipe(name_input.value.lower(), ingredients_list, instructions_list, servings=float(servings_input.value or 1))
-                        refresh_list()
-                        editor_dialog.close()
+                        final_name = name_input.value.lower()
+                        cli.add_recipe(final_name, ingredients_list, instructions_list, servings=float(servings_input.value or 1))
+                        if on_save:
+                            on_save(final_name)
+                        dialog.close()
                 ui.button("Save", on_click=save)
 
-        editor_dialog.open()
+    dialog.open()
+
+
+def open_add_meal_dialog(date_str, meal_type, callback):
+    """
+    Opens a dialog to add a recipe to a specific meal slot.
+
+    Args:
+        date_str (str): ISO formatted date string.
+        meal_type (str): 'breakfast', 'lunch', 'dinner', or 'snack'.
+        callback (callable): Function to run after adding (usually to refresh UI).
+    """
+    recipes = cli.get_all_recipes()
+    options = sorted(list(recipes.keys()))
+
+    with ui.dialog() as dialog, ui.card().classes("bg-white dark:bg-gray-900"):
+        ui.label(f"Add to {meal_type.title()}").classes(
+            "text-xl font-bold dark:text-gray-100"
+        )
+
+        with ui.row().classes("w-full items-baseline gap-2"):
+            select = ui.input(label="Search Recipe", autocomplete=options).classes("w-64")
+            servings_input = ui.number("Servings", value=1, min=0.1).classes("w-20")
+
+        def update_servings(e):
+            if e.value in recipes:
+                try:
+                    default = float(recipes[e.value].get("servings", 1))
+                    servings_input.value = default
+                except (ValueError, TypeError):
+                    pass
+        
+        select.on_value_change(update_servings)
+
+        def save():
+            if select.value:
+                name = select.value
+                if name not in recipes:
+                    with ui.dialog() as confirm_dlg, ui.card():
+                        ui.label(f"Recipe '{name}' not found.")
+                        ui.label("Do you want to create it?")
+                        with ui.row().classes("w-full justify-end"):
+                            ui.button("No", on_click=confirm_dlg.close).props("flat")
+                            def proceed_create():
+                                confirm_dlg.close()
+                                dialog.close()
+                                open_recipe_editor(name, on_save=lambda n: [
+                                    cli.update_meal_plan(date_str, meal_type, n, float(servings_input.value or 1)),
+                                    callback()
+                                ])
+                            ui.button("Yes", on_click=proceed_create)
+                    confirm_dlg.open()
+                    return
+
+                try:
+                    s_val = float(servings_input.value)
+                except (ValueError, TypeError):
+                    s_val = 1.0
+                cli.update_meal_plan(date_str, meal_type, select.value, s_val)
+                callback()
+                dialog.close()
+
+        with ui.row().classes("w-full justify-end"):
+            ui.button("Cancel", on_click=dialog.close).props("flat")
+            ui.button("Add", on_click=save)
+
+    dialog.open()
+
+
+def render_recipes_tab():
+    """
+    Renders the 'Recipes' tab.
+    Lists existing recipes and provides a button to create new ones.
+    """
+
+    # --- Persistent Selection Dialog ---
+    with ui.dialog() as selection_dialog, ui.card().classes("bg-white dark:bg-gray-900 w-full max-w-sm"):
+        ui.label("Similar Recipes Found").classes("text-lg font-bold dark:text-gray-100")
+        ui.label("Did you mean one of these?").classes("dark:text-gray-200 mb-2")
+        selection_content = ui.column().classes("w-full gap-2")
+        ui.button("Cancel", on_click=selection_dialog.close).props("flat").classes("w-full mt-2")
+
+    # --- Persistent Details Dialog ---
+    with ui.dialog() as details_dialog, ui.card().classes("w-full max-w-lg bg-white dark:bg-gray-900"):
+        details_title = ui.label().classes("text-xl font-bold dark:text-gray-100")
+        details_content = ui.column().classes("w-full")
+        details_actions = ui.row().classes("w-full justify-end mt-4 gap-2")
+
+    def open_details(name):
+        recipes = cli.get_all_recipes()
+        data = recipes.get(name)
+        if not data: return
+        
+        details_title.text = name.title()
+        details_content.clear()
+        
+        with details_content:
+            ui.label("Ingredients:").classes("font-bold dark:text-gray-100")
+            for ing in data.get("ingredients", []):
+                ui.label(f"• {ing['quantity']} {ing['unit']} {ing['item']}").classes("dark:text-gray-200")
+            
+            ui.label("Instructions:").classes("font-bold mt-2 dark:text-gray-100")
+            for i, step in enumerate(data.get("instructions", []), 1):
+                ui.label(f"{i}. {step}").classes("dark:text-gray-200")
+        
+        details_actions.clear()
+        with details_actions:
+            ui.button("Delete", icon="delete", color="red", on_click=lambda: [cli.delete_recipe(name), details_dialog.close(), refresh_list(search_input.value)]).props("flat")
+            ui.button("Edit", icon="edit", on_click=lambda: [details_dialog.close(), open_recipe_editor(name, on_save=lambda n: refresh_list(search_input.value))]).props("flat")
+            ui.button("Close", on_click=details_dialog.close).props("flat")
+        
+        details_dialog.open()
 
     def check_new_name():
         with ui.dialog() as dialog, ui.card().classes("w-full max-w-sm bg-white dark:bg-gray-900"):
@@ -507,7 +520,7 @@ def render_recipes_tab():
                 if name in recipes:
                     ui.notify(f"Recipe '{name}' already exists.")
                     dialog.close()
-                    open_editor(name)
+                    open_recipe_editor(name, on_save=lambda n: refresh_list(search_input.value))
                     return
 
                 matches = difflib.get_close_matches(name, recipes.keys(), n=3, cutoff=0.6)
@@ -516,14 +529,14 @@ def render_recipes_tab():
                     selection_content.clear()
                     with selection_content:
                         for match in matches:
-                            ui.button(f"Edit '{match}'", on_click=lambda _, m=match: [selection_dialog.close(), open_editor(m)]).classes("w-full").props("flat border")
+                            ui.button(f"Edit '{match}'", on_click=lambda _, m=match: [selection_dialog.close(), open_recipe_editor(m, on_save=lambda n: refresh_list(search_input.value))]).classes("w-full").props("flat border")
                         
                         ui.separator().classes("my-2")
-                        ui.button(f"Create '{name}'", color="green", on_click=lambda: [selection_dialog.close(), open_editor(name)]).classes("w-full")
+                        ui.button(f"Create '{name}'", color="green", on_click=lambda: [selection_dialog.close(), open_recipe_editor(name, on_save=lambda n: refresh_list(search_input.value))]).classes("w-full")
                     selection_dialog.open()
                 else:
                     dialog.close()
-                    open_editor(name)
+                    open_recipe_editor(name, on_save=lambda n: refresh_list(search_input.value))
 
             name_input.on("keydown.enter", proceed)
             with ui.row().classes("w-full justify-end mt-4"):
