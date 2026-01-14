@@ -57,6 +57,13 @@ def main_page():
             ui.tab("shopping", label="Shopping List")
             ui.tab("settings", label="Settings")
 
+    # --- Shared Dialogs ---
+    with ui.dialog() as recipe_editor_dialog, ui.card().classes("w-full max-w-[600px] bg-white dark:bg-gray-900"):
+        editor_content = ui.column().classes("w-full")
+
+    def open_editor(name=None, on_save=None):
+        open_recipe_editor(name, on_save, dialog=recipe_editor_dialog, container=editor_content)
+
     # --- Main Content Area ---
     with ui.tab_panels(tabs, value="home").classes("w-full p-0"):
         # --- Home Tab ---
@@ -71,11 +78,11 @@ def main_page():
 
         # --- Meal Plan Tab ---
         with ui.tab_panel("plan"):
-            render_meal_plan_tab()
+            render_meal_plan_tab(open_editor)
 
         # --- Recipes Tab ---
         with ui.tab_panel("recipes"):
-            render_recipes_tab()
+            render_recipes_tab(open_editor)
 
         # --- Shopping List Tab ---
         with ui.tab_panel("shopping"):
@@ -86,7 +93,7 @@ def main_page():
             render_settings_tab()
 
 
-def render_meal_plan_tab():
+def render_meal_plan_tab(open_editor_func):
     """
     Renders the 'Meal Plan' tab.
     Displays the daily meal schedule based on 'state["view_days"]'.
@@ -163,7 +170,7 @@ def render_meal_plan_tab():
                                     ui.button(
                                         icon="add",
                                         on_click=lambda e, d=d_str, m=m_type: open_add_meal_dialog(
-                                            d, m, refresh_plan
+                                            d, m, refresh_plan, open_editor_func
                                         ),
                                     ).props("round flat dense size=sm").classes(
                                         "text-gray-600 dark:text-gray-300"
@@ -314,10 +321,11 @@ def open_recipe_details_dialog(
     dialog.open()
 
 
-def open_recipe_editor(existing_name=None, on_save=None):
+def open_recipe_editor(existing_name=None, on_save=None, dialog=None, container=None):
     """
     Opens a dialog to create or edit a recipe.
     """
+    container.clear()
     ingredients_list = []
     instructions_list = []
     initial_servings = 1.0
@@ -332,7 +340,7 @@ def open_recipe_editor(existing_name=None, on_save=None):
             instructions_list = data.get("instructions", [])[:]
             initial_servings = float(data.get("servings", 1))
 
-    with ui.dialog() as dialog, ui.card().classes("w-full max-w-[600px] bg-white dark:bg-gray-900"):
+    with container:
         ui.label("Edit Recipe" if is_editing else "New Recipe").classes("text-xl font-bold dark:text-gray-100")
         
         with ui.column().classes("w-full"):
@@ -397,7 +405,7 @@ def open_recipe_editor(existing_name=None, on_save=None):
     dialog.open()
 
 
-def open_add_meal_dialog(date_str, meal_type, callback):
+def open_add_meal_dialog(date_str, meal_type, callback, open_editor_func):
     """
     Opens a dialog to add a recipe to a specific meal slot.
 
@@ -405,6 +413,7 @@ def open_add_meal_dialog(date_str, meal_type, callback):
         date_str (str): ISO formatted date string.
         meal_type (str): 'breakfast', 'lunch', 'dinner', or 'snack'.
         callback (callable): Function to run after adding (usually to refresh UI).
+        open_editor_func (callable): Function to open the recipe editor.
     """
     recipes = cli.get_all_recipes()
     options = sorted(list(recipes.keys()))
@@ -440,7 +449,7 @@ def open_add_meal_dialog(date_str, meal_type, callback):
                             def proceed_create():
                                 confirm_dlg.close()
                                 dialog.close()
-                                open_recipe_editor(name, on_save=lambda n: [
+                                open_editor_func(name, on_save=lambda n: [
                                     cli.update_meal_plan(date_str, meal_type, n, float(servings_input.value or 1)),
                                     callback()
                                 ])
@@ -463,7 +472,7 @@ def open_add_meal_dialog(date_str, meal_type, callback):
     dialog.open()
 
 
-def render_recipes_tab():
+def render_recipes_tab(open_editor_func):
     """
     Renders the 'Recipes' tab.
     Lists existing recipes and provides a button to create new ones.
@@ -502,7 +511,7 @@ def render_recipes_tab():
         details_actions.clear()
         with details_actions:
             ui.button("Delete", icon="delete", color="red", on_click=lambda: [cli.delete_recipe(name), details_dialog.close(), refresh_list(search_input.value)]).props("flat")
-            ui.button("Edit", icon="edit", on_click=lambda: [details_dialog.close(), open_recipe_editor(name, on_save=lambda n: refresh_list(search_input.value))]).props("flat")
+            ui.button("Edit", icon="edit", on_click=lambda: [details_dialog.close(), open_editor_func(name, on_save=lambda n: refresh_list(search_input.value))]).props("flat")
             ui.button("Close", on_click=details_dialog.close).props("flat")
         
         details_dialog.open()
@@ -520,7 +529,7 @@ def render_recipes_tab():
                 if name in recipes:
                     ui.notify(f"Recipe '{name}' already exists.")
                     dialog.close()
-                    open_recipe_editor(name, on_save=lambda n: refresh_list(search_input.value))
+                    open_editor_func(name, on_save=lambda n: refresh_list(search_input.value))
                     return
 
                 matches = difflib.get_close_matches(name, recipes.keys(), n=3, cutoff=0.6)
@@ -529,14 +538,14 @@ def render_recipes_tab():
                     selection_content.clear()
                     with selection_content:
                         for match in matches:
-                            ui.button(f"Edit '{match}'", on_click=lambda _, m=match: [selection_dialog.close(), open_recipe_editor(m, on_save=lambda n: refresh_list(search_input.value))]).classes("w-full").props("flat border")
+                            ui.button(f"Edit '{match}'", on_click=lambda _, m=match: [selection_dialog.close(), open_editor_func(m, on_save=lambda n: refresh_list(search_input.value))]).classes("w-full").props("flat border")
                         
                         ui.separator().classes("my-2")
-                        ui.button(f"Create '{name}'", color="green", on_click=lambda: [selection_dialog.close(), open_recipe_editor(name, on_save=lambda n: refresh_list(search_input.value))]).classes("w-full")
+                        ui.button(f"Create '{name}'", color="green", on_click=lambda: [selection_dialog.close(), open_editor_func(name, on_save=lambda n: refresh_list(search_input.value))]).classes("w-full")
                     selection_dialog.open()
                 else:
                     dialog.close()
-                    open_recipe_editor(name, on_save=lambda n: refresh_list(search_input.value))
+                    open_editor_func(name, on_save=lambda n: refresh_list(search_input.value))
 
             name_input.on("keydown.enter", proceed)
             with ui.row().classes("w-full justify-end mt-4"):
