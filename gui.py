@@ -48,7 +48,12 @@ def main_page():
     ):
         with ui.row().classes("items-center gap-4"):
             ui.label("Meal Planner").classes("text-2xl font-bold")
-            ui.button(icon="dark_mode", on_click=dark.toggle).props("flat round text-white")
+            
+            dark_btn = ui.button(on_click=dark.toggle).props("flat round text-color=white")
+            def update_dark_icon():
+                dark_btn.props(f"icon={'light_mode' if dark.value is True else 'dark_mode'}")
+            dark.on_value_change(lambda _: update_dark_icon())
+            update_dark_icon()
 
         with ui.tabs().classes("bg-transparent") as tabs:
             ui.tab("home", label="Home")
@@ -58,7 +63,7 @@ def main_page():
             ui.tab("settings", label="Settings")
 
     # --- Shared Dialogs ---
-    with ui.dialog() as recipe_editor_dialog, ui.card().classes("w-full max-w-[600px] bg-white dark:bg-gray-900"):
+    with ui.dialog() as recipe_editor_dialog, ui.card().classes("w-full max-w-[600px] dark:bg-gray-900"):
         editor_content = ui.column().classes("w-full")
 
     def open_editor(name=None, on_save=None):
@@ -144,14 +149,14 @@ def render_meal_plan_tab(open_editor_func):
                     is_today = d == date.today()
                     
                     # Highlight today's card
-                    card_bg = "bg-blue-50 dark:bg-blue-900 border-primary border-2" if is_today else "bg-gray-50 dark:bg-gray-900"
+                    card_bg = "bg-blue-50 dark:bg-slate-800 border-primary border-2" if is_today else "bg-gray-50 dark:bg-gray-900"
 
                     # --- Day Card ---
                     with ui.card().classes(
                         f"w-full sm:w-60 {card_bg} p-2 transition-all hover:shadow-md"
                     ):
                         with ui.row().classes("w-full justify-between items-baseline"):
-                            ui.label(d.strftime("%A")).classes("text-lg font-bold text-primary")
+                            ui.label(d.strftime("%A")).classes("text-lg font-bold text-primary dark:text-blue-300")
                             ui.label(d.strftime("%b %d")).classes("text-sm text-gray-500 dark:text-gray-400")
 
                         # Render sections for each meal type
@@ -188,12 +193,12 @@ def render_meal_plan_tab(open_editor_func):
                                             servings = None
                                             display_text = item
 
-                                        with ui.card().classes("w-full p-1 mb-1 bg-white dark:bg-gray-700 cursor-move").props("draggable").on("dragstart", lambda e, d=d_str, m=m_type, i=idx: handle_drag_start(d, m, i)):
+                                        with ui.card().classes("w-full p-1 mb-1 dark:bg-gray-700 border dark:border-gray-600 cursor-move").props("draggable").on("dragstart", lambda e, d=d_str, m=m_type, i=idx: handle_drag_start(d, m, i)):
                                             with ui.row().classes(
                                                 "w-full justify-between items-center"
                                             ):
                                                 ui.label(display_text).classes(
-                                                    "text-sm dark:text-gray-200 cursor-pointer hover:underline"
+                                                    "text-sm dark:text-gray-100 cursor-pointer hover:underline"
                                                 ).on(
                                                     "click",
                                                     lambda _, n=r_name, s=servings, d=d_str, m=m_type, i=idx: open_recipe_details_dialog(
@@ -236,7 +241,7 @@ def open_recipe_details_dialog(
     recipe_data = recipes.get(recipe_name)
 
     with ui.dialog() as dialog, ui.card().classes(
-        "w-full max-w-lg bg-white dark:bg-gray-900"
+        "w-full max-w-lg dark:bg-gray-900"
     ):
         if not recipe_data:
             ui.label(f"Recipe '{recipe_name}' not found.").classes("text-red-500")
@@ -344,8 +349,8 @@ def open_recipe_editor(existing_name=None, on_save=None, dialog=None, container=
         ui.label("Edit Recipe" if is_editing else "New Recipe").classes("text-xl font-bold dark:text-gray-100")
         
         with ui.column().classes("w-full"):
-            name_input = ui.input("Recipe Name", value=existing_name or "").classes("w-full")
-            servings_input = ui.number("Servings", value=initial_servings, min=1).classes("w-full")
+            name_input = ui.input("Recipe Name", value=existing_name or "").classes("w-full").props("outlined")
+            servings_input = ui.number("Servings", value=initial_servings, min=1).classes("w-full").props("outlined")
 
             ui.label("Ingredients").classes("font-bold mt-2 dark:text-gray-100")
             ing_container = ui.column().classes("w-full")
@@ -361,9 +366,9 @@ def open_recipe_editor(existing_name=None, on_save=None, dialog=None, container=
             refresh_ings()
 
             with ui.row().classes("w-full items-end gap-2"):
-                i_qty = ui.input("Qty").classes("w-16")
-                i_unit = ui.input("Unit").classes("w-16")
-                i_name = ui.input("Item").classes("flex-grow")
+                i_qty = ui.input("Qty").classes("w-16").props("outlined")
+                i_unit = ui.input("Unit").classes("w-16").props("outlined")
+                i_name = ui.input("Item").classes("flex-grow").props("outlined")
                 def add_ing():
                     if i_name.value and i_qty.value:
                         ingredients_list.append({"item": i_name.value, "quantity": i_qty.value, "unit": i_unit.value})
@@ -384,7 +389,7 @@ def open_recipe_editor(existing_name=None, on_save=None, dialog=None, container=
             refresh_inst()
 
             with ui.row().classes("w-full items-end gap-2"):
-                inst_input = ui.input("Step").classes("flex-grow")
+                inst_input = ui.input("Step").classes("flex-grow").props("outlined")
                 def add_inst():
                     if inst_input.value:
                         instructions_list.append(inst_input.value)
@@ -418,14 +423,14 @@ def open_add_meal_dialog(date_str, meal_type, callback, open_editor_func):
     recipes = cli.get_all_recipes()
     options = sorted(list(recipes.keys()))
 
-    with ui.dialog() as dialog, ui.card().classes("bg-white dark:bg-gray-900"):
+    with ui.dialog() as dialog, ui.card().classes("dark:bg-gray-900"):
         ui.label(f"Add to {meal_type.title()}").classes(
             "text-xl font-bold dark:text-gray-100"
         )
 
         with ui.row().classes("w-full items-baseline gap-2"):
-            select = ui.input(label="Search Recipe", autocomplete=options).classes("w-64")
-            servings_input = ui.number("Servings", value=1, min=0.1).classes("w-20")
+            select = ui.input(label="Search Recipe", autocomplete=options).classes("w-64").props("outlined")
+            servings_input = ui.number("Servings", value=1, min=0.1).classes("w-20").props("outlined")
 
         def update_servings(e):
             if e.value in recipes:
@@ -441,9 +446,9 @@ def open_add_meal_dialog(date_str, meal_type, callback, open_editor_func):
             if select.value:
                 name = select.value
                 if name not in recipes:
-                    with ui.dialog() as confirm_dlg, ui.card():
-                        ui.label(f"Recipe '{name}' not found.")
-                        ui.label("Do you want to create it?")
+                    with ui.dialog() as confirm_dlg, ui.card().classes("dark:bg-gray-900"):
+                        ui.label(f"Recipe '{name}' not found.").classes("dark:text-gray-100")
+                        ui.label("Do you want to create it?").classes("dark:text-gray-100")
                         with ui.row().classes("w-full justify-end"):
                             ui.button("No", on_click=confirm_dlg.close).props("flat")
                             def proceed_create():
@@ -479,14 +484,14 @@ def render_recipes_tab(open_editor_func):
     """
 
     # --- Persistent Selection Dialog ---
-    with ui.dialog() as selection_dialog, ui.card().classes("bg-white dark:bg-gray-900 w-full max-w-sm"):
+    with ui.dialog() as selection_dialog, ui.card().classes("dark:bg-gray-900 w-full max-w-sm"):
         ui.label("Similar Recipes Found").classes("text-lg font-bold dark:text-gray-100")
         ui.label("Did you mean one of these?").classes("dark:text-gray-200 mb-2")
         selection_content = ui.column().classes("w-full gap-2")
         ui.button("Cancel", on_click=selection_dialog.close).props("flat").classes("w-full mt-2")
 
     # --- Persistent Details Dialog ---
-    with ui.dialog() as details_dialog, ui.card().classes("w-full max-w-lg bg-white dark:bg-gray-900"):
+    with ui.dialog() as details_dialog, ui.card().classes("w-full max-w-lg dark:bg-gray-900"):
         details_title = ui.label().classes("text-xl font-bold dark:text-gray-100")
         details_content = ui.column().classes("w-full")
         details_actions = ui.row().classes("w-full justify-end mt-4 gap-2")
@@ -517,9 +522,9 @@ def render_recipes_tab(open_editor_func):
         details_dialog.open()
 
     def check_new_name():
-        with ui.dialog() as dialog, ui.card().classes("w-full max-w-sm bg-white dark:bg-gray-900"):
+        with ui.dialog() as dialog, ui.card().classes("w-full max-w-sm dark:bg-gray-900"):
             ui.label("New Recipe Name").classes("text-xl font-bold dark:text-gray-100")
-            name_input = ui.input("Name").classes("w-full").props("autofocus")
+            name_input = ui.input("Name").classes("w-full").props("autofocus outlined")
 
             def proceed():
                 name = name_input.value.strip().lower()
